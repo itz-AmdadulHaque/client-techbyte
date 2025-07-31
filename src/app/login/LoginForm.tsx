@@ -12,6 +12,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Image from "next/image";
+import googleLogo from "../../../public/google.png";
 
 const loginSchema = z.object({
   email: z.email("Invalid email"),
@@ -45,12 +47,23 @@ export default function LoginForm() {
       </CardHeader>
       <CardContent>
         <Button
-          className="w-full mb-4 bg-red-400"
+          className="w-full mb-4"
           variant="outline"
           onClick={handleGoogleLogin}
         >
+          <Image
+            src={googleLogo}
+            alt="Google Icon"
+            width={16}
+            height={16}
+            className="inline-block mr-2 h-4 w-4"
+          />
+
+
           Continue with Google
         </Button>
+
+
         <div className="text-center my-4 text-muted-foreground">or</div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -89,6 +102,15 @@ export default function LoginForm() {
             </Button>
           </form>
         </Form>
+
+        <div className="text-center mt-4">
+          <p className="text-sm text-muted-foreground">
+            Don&apos;t have an account?{" "}
+            <a href="/signup" className="text-blue-600 hover:underline">
+              Register
+            </a>
+          </p>
+        </div>
       </CardContent>
     </Card>
   );

@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 "use client";
 
 import { Home, Grid3x3, Search, ShoppingCart, ShoppingBag, Monitor, Smartphone, Laptop, Store, Tags } from "lucide-react";
@@ -67,7 +66,9 @@ export default function Navbar() {
   const { data } = useQuery({
     queryKey: ["clientInfo"],
     queryFn: async () => {
-      const res = await axiosPrivate.get("/client");
+
+      console.log("calling client info");
+      const res = await axiosPrivate.get("/customer");
       setAuth((prev) => {
         return {
           ...prev,
@@ -77,6 +78,7 @@ export default function Navbar() {
       });
       return res.data;
     },
+    enabled: !auth.user,
   });
 
   return (
@@ -154,10 +156,13 @@ export default function Navbar() {
 
             <ShoppingCart className="h-6 w-6 text-gray-600 cursor-pointer" />
 
-            {auth?.user ? (
-              <NavUser user={auth.user} />
-            ) : (
-              <li>
+            {auth?.user ?
+              (
+                <NavUser user={auth.user} />
+              )
+              :
+              (
+
                 <Link
                   href="/login"
                   className={clsx(
@@ -167,8 +172,8 @@ export default function Navbar() {
                 >
                   Login
                 </Link>
-              </li>
-            )}
+
+              )}
 
           </div>
 

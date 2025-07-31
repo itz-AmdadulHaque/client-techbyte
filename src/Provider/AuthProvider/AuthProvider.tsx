@@ -3,13 +3,13 @@
 import type { Auth } from "@/Types/Types";
 import { AuthContext } from "./auth-context";
 import {  useState, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const initialState = { user: null, accessToken: null, isLoading: true };
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [auth, setAuth] = useState<Auth>(initialState);
-  const router = useRouter()
+  // const router = useRouter()
 
   const logOut = () => {
     setAuth({
@@ -17,8 +17,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       accessToken:null,
       isLoading: false
     });
+     console.log('object');
 
-    router.push('/login')
+    // router.push('/')
   };
 
   const authInfo = {
