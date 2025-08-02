@@ -14,9 +14,18 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from "next/image";
 import googleLogo from "../../../public/google.png";
+import { axiosPrivate } from "@/config/axios";
+import { useMutation } from "@tanstack/react-query";
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
+
 
 const loginSchema = z.object({
-  email: z.email("Invalid email"),
+  phone: z
+    .string()
+    .min(11, "Phone number must be 11 digits")
+    .max(11, "Phone number must be 11 digits")
+    .regex(/^\d+$/, "Phone number must contain only digits"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
@@ -25,12 +34,49 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginForm() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: {
+      phone: "",
+      password: ""
+    },
   });
 
+  const { setAuth } = useAuth();
+  const router = useRouter();
+
+
+  const userLogin = async (data: LoginFormValues) => {
+
+    const res = await axiosPrivate.post("/auth/login", data)
+
+    return res.data;
+  }
+
+
+  const { mutate: loginFunction, isPending } = useMutation({
+    mutationFn: userLogin,
+    onSuccess: (data) => {
+      // Handle successful login, e.g., redirect or show success message
+      console.log("Login successful:", data.data);
+
+      setAuth({
+        accessToken: data.data.accessToken,
+        user: data.data.user,
+        isLoading: false,
+      })
+
+      router.push("/")
+
+
+    },
+    onError: (error) => {
+      // Handle error, e.g., show error message
+      console.error("Login failed:", error);
+    },
+  });
+
+
   const onSubmit = async (data: LoginFormValues) => {
-    // TODO: Implement login logic
-    console.log(data);
+    loginFunction(data);
   };
 
   const handleGoogleLogin = async () => {
@@ -40,6 +86,8 @@ export default function LoginForm() {
       console.log(error);
     }
   };
+
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -67,21 +115,26 @@ export default function LoginForm() {
         <div className="text-center my-4 text-muted-foreground">or</div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+
+
             <FormField
               control={form.control}
-              name="email"
+              name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Phone Number</FormLabel>
                   <Input
-                    type="email"
-                    placeholder="you@example.com"
+                    type="text"
+                    placeholder="01xxxxxxxxx"
                     {...field}
                   />
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+
+
             <FormField
               control={form.control}
               name="password"
@@ -97,8 +150,12 @@ export default function LoginForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
-              Login
+
+
+            <Button disabled={isPending} type="submit" className="w-full">
+              {
+                isPending ? "Logging in..." : "Login"
+              }
             </Button>
           </form>
         </Form>
