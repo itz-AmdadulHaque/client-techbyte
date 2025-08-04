@@ -58,8 +58,13 @@ export type BannerType = {
   updatedById: string;
 };
 
+export type ProductImageType = {
+  id: string;
+  image: string;
+}
+
 export type Product = {
-  id: number;
+  id: string;
   title: string;
   description: string;
   price: number;
@@ -69,7 +74,7 @@ export type Product = {
   subCategory: SubCategory;
   model: string;
   brand: string;
-  images: string[];
+  images: ProductImageType[];
 };
 
 export type BreadcrumbItemType = {

@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 import { NavbarDrawer } from "./NavbarDrawer";
 import { NavItemType } from "@/Types/ComponentTypes";
+import SearchBar from "./SearchBar";
+import ModeToggle from "@/components/theme/mode-toggler";
 
 const navItems: NavItemType[] = [
   {
@@ -61,6 +63,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const { auth, setAuth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  
 
 
   const { data } = useQuery({
@@ -84,7 +87,7 @@ export default function Navbar() {
   return (
     <>
       {/* Desktop Top Navbar */}
-      <nav className="shadow-md fixed top-0 left-0 right-0 z-50">
+      <nav className="shadow-md fixed top-0 left-0 right-0 z-50 bg-black dark:bg-gray-900 text-white">
 
         <div className="flex justify-between items-center px-6 py-4 container mx-auto">
 
@@ -145,16 +148,11 @@ export default function Navbar() {
 
           <div className="flex items-center gap-4">
 
-            <div className="relative w-full max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                type="search"
-                placeholder="Search..."
-                className="pl-10"
-              />
-            </div>
+            <SearchBar />
 
             <ShoppingCart className="h-6 w-6 text-gray-600 cursor-pointer" />
+
+            <ModeToggle />
 
             {auth?.user ?
               (
