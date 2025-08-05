@@ -7,6 +7,8 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import AddToCart from "@/components/custom/AddToCart/AddToCart"
+import { fetchData } from "@/lib/fetchFunction"
+import CustomPagination from "@/components/custom/Pagination/Pagination"
 
 
 interface SearchPageProps {
@@ -29,8 +31,6 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
 
   const filters = {
     name: decodeURIComponent(params.q),
-    page: Number(searchParams.page || ""),
-    limit: Number(searchParams.limit || 12),
     brandId: searchParams.brandId?.split(",") || [],
     categoryId: searchParams.categoryId?.split(",") || [],
     subCategoryId: searchParams.subCategoryId?.split(",") || [],
@@ -38,23 +38,26 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
     maxPrice: Number(searchParams.maxPrice || 1000000),
   }
 
+  const page = Number(searchParams.page || 1)
+  const limit = Number(searchParams.limit || 20)
+
   const query = new URLSearchParams({
     search: params.q,
-    ...(Number.isFinite(filters.page) && filters.page > 0 ? { page: String(filters.page) } : {}),
-    limit: String(filters.limit),
     ...(filters.brandId.length > 0 ? { brandId: filters.brandId.join(",") } : {}),
     ...(filters.categoryId.length > 0 ? { categoryId: filters.categoryId.join(",") } : {}),
     ...(filters.subCategoryId.length > 0 ? { subCategoryId: filters.subCategoryId.join(",") } : {}),
     minPrice: String(filters.minPrice),
     maxPrice: String(filters.maxPrice),
+    ...(page > 1 ? { page: String(page) } : {}), // don't include if page is 1
+    limit: String(limit), // don't include if limit is default
   }).toString()
 
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products?${query}`)
-  const data = await res.json()
+  const data = await fetchData(`/products?${query}`)
+
+  console.log(data.data);
   const products = data.data.products || [];
 
-  console.log(products[1]);
 
 
 
@@ -77,7 +80,7 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
             <Card key={p.id} className=" h-full">
               <CardContent className="h-full flex flex-col">
                 <Link
-                  href=""
+                  href={`/product/${p.id}`}
                   className="flex flex-col flex-grow justify-between text-center"
                 >
                   <div>
@@ -113,7 +116,16 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
 
           ))}
 
+
+
+
         </div>
+
+        <CustomPagination
+          currentPage={data.data.currentPage}
+          totalPages={data.data.totalPages || 1}
+        />
+
 
       </div>
     </div>

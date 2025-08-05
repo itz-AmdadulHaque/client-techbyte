@@ -17,7 +17,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       accessToken:null,
       isLoading: false
     });
-     console.log('object');
 
     // router.push('/')
   };

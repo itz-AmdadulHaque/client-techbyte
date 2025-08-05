@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useContext, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -19,15 +19,18 @@ interface Filters {
   subCategoryId: string[];
   minPrice: number;
   maxPrice: number;
-  page: number;
-  limit: number;
+
 }
 
 export default function SearchFilters({ initialFilters }: { initialFilters: Filters }) {
+
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
-  const { categories} = useContext(DataContext)
+  const { categories } = useContext(DataContext)
 
   // Temporary price range state
   const [priceRange, setPriceRange] = useState<[number, number]>([
@@ -38,8 +41,8 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
   const [open, setOpen] = useState({
     brandId: true,
     categoryId: true,
+    subCategoryId: true,
     price: true,
-    limit: true,
   })
 
   const updateField = <K extends keyof Filters>(field: K, value: Filters[K]) => {
@@ -70,38 +73,88 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
   }
 
   const applyFilters = () => {
-    const params = new URLSearchParams()
-    if (filters.brandId.length) params.set("brandId", filters.brandId.join(","))
-    if (filters.categoryId.length) params.set("categoryId", filters.categoryId.join(","))
-    if (filters.subCategoryId.length) params.set("subCategoryId", filters.subCategoryId.join(","))
-    // skip price range here
-    params.set("page", String(filters.page))
-    params.set("limit", String(filters.limit))
+    const params = new URLSearchParams(searchParams.toString())
 
-    router.push(`/search/${encodeURIComponent(filters.name)}?${params.toString()}`)
+    // Set only if non-empty
+    if (filters.brandId.length && filters.brandId[0] !== "") {
+      params.set("brandId", filters.brandId.join(","))
+    } else {
+      params.delete("brandId")
+    }
+
+    if (filters.categoryId.length && filters.categoryId[0] !== "") {
+      params.set("categoryId", filters.categoryId.join(","))
+    } else {
+      params.delete("categoryId")
+    }
+
+    if (filters.subCategoryId.length && filters.subCategoryId[0] !== "") {
+      params.set("subCategoryId", filters.subCategoryId.join(","))
+    } else {
+      params.delete("subCategoryId")
+    }
+
+    // Keep limit if present, otherwise default to 20
+    if (!params.get("limit")) {
+      params.set("limit", "20")
+    }
+
+    // Always reset page to 1 when filters change
+    params.delete("page")
+
+    router.push(`${pathname}?${params.toString()}`)
   }
 
+  // const applyFilters = () => {
+  //   const params = new URLSearchParams()
+  //   if (filters.brandId.length) params.set("brandId", filters.brandId.join(","))
+  //   if (filters.categoryId.length) params.set("categoryId", filters.categoryId.join(","))
+  //   if (filters.subCategoryId.length) params.set("subCategoryId", filters.subCategoryId.join(","))
+  //   // skip price range here
+
+
+  //   router.push(`/search/${encodeURIComponent(filters.name)}?${params.toString()}`)
+  // }
+
   const applyPriceFilter = () => {
-    const params = new URLSearchParams()
-    params.set("page", String(filters.page))
-    params.set("limit", String(filters.limit))
-    if (filters.brandId.length) params.set("brandId", filters.brandId.join(","))
-    if (filters.categoryId.length) params.set("categoryId", filters.categoryId.join(","))
-    if (filters.subCategoryId.length) params.set("subCategoryId", filters.subCategoryId.join(","))
+    const params = new URLSearchParams(searchParams.toString())
+
     params.set("minPrice", String(priceRange[0]))
     params.set("maxPrice", String(priceRange[1]))
 
-    router.push(`/search/${encodeURIComponent(filters.name)}?${params.toString()}`)
+    if (filters.brandId.length) {
+      params.set("brandId", filters.brandId.join(","))
+    } else {
+      params.delete("brandId")
+    }
+
+    if (filters.categoryId.length) {
+      params.set("categoryId", filters.categoryId.join(","))
+    } else {
+      params.delete("categoryId")
+    }
+
+    if (filters.subCategoryId.length) {
+      params.set("subCategoryId", filters.subCategoryId.join(","))
+    } else {
+      params.delete("subCategoryId")
+    }
+
+    if (!params.get("limit")) params.set("limit", "20")
+    params.delete("page")
+
+    router.push(`${pathname}?${params.toString()}`)
   }
-  
-  
+
+
   const clearPriceFilter = () => {
     const params = new URLSearchParams()
-    params.set("page", String(filters.page))
-    params.set("limit", String(filters.limit))
+
     if (filters.brandId.length) params.set("brandId", filters.brandId.join(","))
     if (filters.categoryId.length) params.set("categoryId", filters.categoryId.join(","))
     if (filters.subCategoryId.length) params.set("subCategoryId", filters.subCategoryId.join(","))
+    if (!params.get("limit")) params.set("limit", "20")
+    params.delete("page")
 
     setPriceRange([0, 1000000])
 
@@ -116,8 +169,7 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
       subCategoryId: [],
       minPrice: 0,
       maxPrice: 1000000,
-      page: 1,
-      limit: 12,
+
     })
     setPriceRange([0, 1000000])
     router.push(`/search/${encodeURIComponent(filters.name)}`)
@@ -174,8 +226,8 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
             <Button size="sm" onClick={applyPriceFilter}>
               Filter Range
             </Button>
-            
-            
+
+
             <Button size="sm" onClick={clearPriceFilter} variant="outline">
               Clear Range
             </Button>
@@ -203,7 +255,7 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
       {renderCollapsible(
         "Category",
         "categoryId",
-        categories.map((c:CategoryType) => (
+        categories.map((c: CategoryType) => (
           <div key={c.id} className="flex items-center space-x-2">
             <Checkbox
               checked={filters.categoryId.includes(c.id)}
@@ -214,18 +266,29 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
         ))
       )}
 
-
-
       {renderCollapsible(
-        "Items per page",
-        "limit",
-        <Input
-          type="number"
-          min={1}
-          value={filters.limit}
-          onChange={(e) => updateField("limit", Number(e.target.value))}
-        />
+        "Subcategory",
+        "subCategoryId",
+        categories
+          .filter((c: CategoryType) =>
+            filters.categoryId.length ? filters.categoryId.includes(c.id) : true
+          )
+          .flatMap((c: CategoryType) =>
+            c.subCategories.map((sub) => (
+              <div key={sub.id} className="flex items-center space-x-2">
+                <Checkbox
+                  checked={filters.subCategoryId.includes(sub.id)}
+                  onCheckedChange={() => handleCheckbox("subCategoryId", sub.id)}
+                />
+                <label>{sub.title}</label>
+              </div>
+            )) || []
+          )
       )}
+
+
+
+
 
       <div className="flex flex-wrap gap-3 justify-between">
         <Button onClick={applyFilters}>Apply Filter</Button>

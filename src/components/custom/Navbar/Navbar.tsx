@@ -70,7 +70,7 @@ export default function Navbar() {
     queryKey: ["clientInfo"],
     queryFn: async () => {
 
-      console.log("calling client info");
+      
       const res = await axiosPrivate.get("/customer");
       setAuth((prev) => {
         return {

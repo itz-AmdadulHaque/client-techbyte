@@ -57,7 +57,6 @@ export default function SignUp() {
 
         const res = await axiosPrivate.post("/auth/register", submitData)
 
-        console.log(res.data);
 
         return res.data;
 
@@ -69,7 +68,6 @@ export default function SignUp() {
         {
             mutationFn: customerSignUp,
             onSuccess: (data) => {
-                console.log("Sign up successful", data);
 
                 setAuth({
                     accessToken: data.data.accessToken,

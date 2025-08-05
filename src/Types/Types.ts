@@ -20,6 +20,14 @@ export type Auth = {
   isLoading: boolean;
 };
 
+export type SubCategory = {
+  id: string;
+  title: string;
+  image: string;
+  categoryId: number;
+  category: CategoryType;
+};
+
 export type CategoryType = {
   id: string;
   title: string;
@@ -32,6 +40,7 @@ export type CategoryType = {
   updatedAt: string;
   createdBy: CategoryUser;
   updatedBy: CategoryUser;
+  subCategories: SubCategory[];
 };
 
 export type CategoryUser = {
@@ -42,13 +51,7 @@ export type CategoryUser = {
   email: string;
 };
 
-export type SubCategory = {
-  id: number;
-  title: string;
-  image: string;
-  categoryId: number;
-  category: CategoryType;
-};
+
 
 export type BannerType = {
   id: number;
