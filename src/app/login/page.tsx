@@ -1,7 +1,7 @@
 import LoginForm from "./LoginForm";
 export const metadata = {
-  title: "Login | TechByte",
-  description: "Login to your TechByte account using email, password, or Google.",
+  title: "Login | TechVibe",
+  description: "Login to your TechVibe account using email, password, or Google.",
 };
 
 export default function Page() {

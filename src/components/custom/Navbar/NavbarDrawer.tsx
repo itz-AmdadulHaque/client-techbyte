@@ -1,3 +1,4 @@
+import ModeToggle from "@/components/theme/mode-toggler"
 import { Button } from "@/components/ui/button"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Input } from "@/components/ui/input"
@@ -13,15 +14,15 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { NavItemType } from "@/Types/ComponentTypes"
-import { ChevronDown, Menu } from "lucide-react"
+import { ChevronDown, Menu, ShoppingCart } from "lucide-react"
 import Link from "next/link"
 
 export function NavbarDrawer({ navItems }: { navItems: NavItemType[] }) {
   return (
     <Sheet>
-      <SheetTrigger asChild className="md:hidden">
-        <Button variant="outline" size="icon">
-          <Menu strokeWidth={2.5} size={32} />
+      <SheetTrigger asChild className="lg:hidden">
+        <Button variant="link" size="icon" className="">
+          <Menu strokeWidth={5.5} size={36} color="white" />
         </Button>
       </SheetTrigger>
 
@@ -31,7 +32,7 @@ export function NavbarDrawer({ navItems }: { navItems: NavItemType[] }) {
         </SheetHeader>
 
 
-        <div className="flex flex-col justify-start gap-4">
+        <div className="flex flex-col  justify-start gap-4">
           {navItems.map((item) =>
             item.links ? (
               <Collapsible key={item.label}>
@@ -63,6 +64,12 @@ export function NavbarDrawer({ navItems }: { navItems: NavItemType[] }) {
               </SheetClose>
             )
           )}
+
+          <div className="flex items-center justify-around mt-4">
+            <ShoppingCart className="h-6 w-6 text-gray-600 dark:text-gray-300 cursor-pointer" />
+
+            <ModeToggle />
+          </div>
         </div>
 
         {/* <SheetFooter>

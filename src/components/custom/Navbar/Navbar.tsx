@@ -8,12 +8,12 @@ import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { useQuery } from "@tanstack/react-query";
 import NavUser from "./NavUser";
-import { Input } from "@/components/ui/input";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 import { NavbarDrawer } from "./NavbarDrawer";
 import { NavItemType } from "@/Types/ComponentTypes";
 import SearchBar from "./SearchBar";
 import ModeToggle from "@/components/theme/mode-toggler";
+import Image from "next/image";
 
 const navItems: NavItemType[] = [
   {
@@ -63,14 +63,14 @@ export default function Navbar() {
   const pathname = usePathname();
   const { auth, setAuth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  
+
 
 
   const { data } = useQuery({
     queryKey: ["clientInfo"],
     queryFn: async () => {
 
-      
+
       const res = await axiosPrivate.get("/customer");
       setAuth((prev) => {
         return {
@@ -87,20 +87,25 @@ export default function Navbar() {
   return (
     <>
       {/* Desktop Top Navbar */}
-      <nav className="shadow-md fixed top-0 left-0 right-0 z-50 bg-black dark:bg-gray-900 text-white">
+      <nav className="shadow-md fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-black via-gray-900 to-black text-white">
 
-        <div className="flex justify-between items-center px-6 py-4 container mx-auto">
+        <div className="flex justify-between items-center px-1 lg:px-6 py-4 container mx-auto">
 
 
           <div className="flex items-center gap-4">
+
             <NavbarDrawer navItems={navItems} />
 
-            <h2 className="text-xl font-bold">TechByte</h2>
+            <Image src="/logo.png" alt="TechVibe" width={100} height={100} className="w-12 rounded-md" />
+
+
+
+            <h2 className=" hidden xl:block text-xl font-bold">TechVibe</h2>
 
           </div>
 
 
-          <ul className="hidden md:flex gap-8 items-center">
+          <ul className="hidden lg:flex gap-8 items-center">
 
 
             {navItems.map((item) => (
@@ -150,9 +155,11 @@ export default function Navbar() {
 
             <SearchBar />
 
-            <ShoppingCart className="h-6 w-6 text-gray-600 cursor-pointer" />
+            <ShoppingCart className="hidden lg:block h-6 w-6 text-gray-600 cursor-pointer" />
 
-            <ModeToggle />
+            <div className="hidden lg:block">
+              <ModeToggle />
+            </div>
 
             {auth?.user ?
               (
