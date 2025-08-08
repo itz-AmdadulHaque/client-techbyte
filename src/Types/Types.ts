@@ -54,8 +54,10 @@ export type CategoryUser = {
 
 
 export type BannerType = {
-  id: number;
+  id: string;
   image: string;
+  link?: string;
+  title: string;
   isActive: boolean;
   createdById: string;
   updatedById: string;
@@ -70,13 +72,14 @@ export type Product = {
   id: string;
   title: string;
   description: string;
-  price: number;
-  categoryId: number;
-  subCategoryId: number;
+  price?: number;
+  categoryId: string;
+  subCategoryId: string;
+  stock: number;
   category: CategoryType;
   subCategory: SubCategory;
-  model: string;
-  brand: string;
+  modelNumber: string;
+  brand: CategoryType;
   images: ProductImageType[];
 };
 

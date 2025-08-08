@@ -58,7 +58,7 @@ export default function CustomPagination({
                 limit: limit !== 20 ? String(limit) : null,
             })
         },
-        [limit, pathname, searchParams]
+        [limit, pathname, searchParams, updateParams]
     )
 
     const changeLimit = (value: number) => {
@@ -80,51 +80,13 @@ export default function CustomPagination({
     )
 
     return (
-        <div className="mt-10 flex flex-col items-center space-y-4">
-            {totalPages > 1 && (
-                <Pagination>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious
-                                href="#"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    if (currentPage > 1) goToPage(currentPage - 1)
-                                }}
-                            />
-                        </PaginationItem>
+        <div className="mt-10 mb-20 items-center space-y-4">
 
-                        {visiblePages.map((page) => (
-                            <PaginationItem key={page}>
-                                <PaginationLink
-                                    href="#"
-                                    isActive={page === currentPage}
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        goToPage(page)
-                                    }}
-                                >
-                                    {page}
-                                </PaginationLink>
-                            </PaginationItem>
-                        ))}
+            <div className="flex flex-wrap gap-4 justify-between items-center">
 
-                        <PaginationItem>
-                            <PaginationNext
-                                href="#"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    if (currentPage < totalPages) goToPage(currentPage + 1)
-                                }}
-                            />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            )}
-
-            <div className="flex flex-wrap gap-4 items-center justify-center">
                 <div className="flex items-center space-x-2">
                     <span className="text-sm">Items per page:</span>
+
                     <Select
                         value={String(limit)}
                         onValueChange={(val: string) => changeLimit(Number(val))}
@@ -139,6 +101,49 @@ export default function CustomPagination({
                         </SelectContent>
                     </Select>
                 </div>
+
+                
+                {totalPages > 1 && (
+                    <Pagination>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        if (currentPage > 1) goToPage(currentPage - 1)
+                                    }}
+                                />
+                            </PaginationItem>
+
+                            {visiblePages.map((page) => (
+                                <PaginationItem key={page}>
+                                    <PaginationLink
+                                        href="#"
+                                        isActive={page === currentPage}
+                                        onClick={(e) => {
+                                            e.preventDefault()
+                                            goToPage(page)
+                                        }}
+                                    >
+                                        {page}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            ))}
+
+                            <PaginationItem>
+                                <PaginationNext
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        if (currentPage < totalPages) goToPage(currentPage + 1)
+                                    }}
+                                />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
+                )}
+
 
                 <div className="flex items-center space-x-2">
                     <span className="text-sm">Go to page:</span>
@@ -159,6 +164,7 @@ export default function CustomPagination({
                         Go
                     </button>
                 </div>
+
             </div>
         </div>
     )

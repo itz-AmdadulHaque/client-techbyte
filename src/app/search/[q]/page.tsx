@@ -9,6 +9,7 @@ import Link from "next/link"
 import AddToCart from "@/components/custom/AddToCart/AddToCart"
 import { fetchData } from "@/lib/fetchFunction"
 import CustomPagination from "@/components/custom/Pagination/Pagination"
+import ProductCard from "@/components/custom/ProductCard/ProductCard"
 
 
 interface SearchPageProps {
@@ -76,43 +77,8 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 
-          {products.map((p: Product) => (
-            <Card key={p.id} className=" h-full">
-              <CardContent className="h-full flex flex-col">
-                <Link
-                  href={`/product/${p.id}`}
-                  className="flex flex-col flex-grow justify-between text-center"
-                >
-                  <div>
-                    <Image
-                      src={
-                        p.images[0]
-                          ? `${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${p.images[0].image}`
-                          : "/altImage.jpg"
-                      }
-                      alt={p.title}
-                      width={400}
-                      height={160}
-                      className="w-full h-72 md:h-64 rounded-md object-cover mb-3"
-                    />
-
-                    <h2 className="mt-2 font-semibold my-4">{p.title}</h2>
-
-                    <div className="text-muted-foreground flex items-center justify-center gap-2">
-                      <Image src="/taka.png" alt="Taka symbol" width={20} height={20} />
-                      <p className="text-md font-bold">{p.price}</p>
-                    </div>
-                  </div>
-                </Link>
-
-                <div className="flex justify-between items-center mt-4">
-                  <Link href={`/product/${p.id}`}>
-                    <Button >VIEW</Button>
-                  </Link>
-                  <AddToCart variant="outline" id={p.id} />
-                </div>
-              </CardContent>
-            </Card>
+          {products.map((product: Product) => (
+            <ProductCard key={product.id} product={product} />
 
           ))}
 

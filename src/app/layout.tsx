@@ -6,6 +6,7 @@ import ReactQueryClientProvider from "@/Provider/ReactQueryClientProvider";
 import Navbar from "@/components/custom/Navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { Candal } from "next/font/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,6 +16,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const candal = Candal({
+  weight: "400", // only one weight available
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-candal", // optional but useful for Tailwind
 });
 
 export const metadata: Metadata = {
@@ -28,33 +36,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={candal.variable}>
 
       <head />
 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 
         <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem={false}
-        disableTransitionOnChange
-      >
+          attribute="class"
+          defaultTheme="system"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
 
-        <AuthProvider>
-          <ReactQueryClientProvider>
-            
+          <AuthProvider>
+            <ReactQueryClientProvider>
+
               <main>
                 <Navbar />
                 {children}
               </main>
               <Toaster />
-            
-          </ReactQueryClientProvider>
-        </AuthProvider>
 
-      </ThemeProvider>
-      
+            </ReactQueryClientProvider>
+          </AuthProvider>
+
+        </ThemeProvider>
+
       </body>
 
     </html>

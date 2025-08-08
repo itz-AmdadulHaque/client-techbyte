@@ -30,7 +30,7 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
 
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
-  const { categories } = useContext(DataContext)
+  const { categories, brands } = useContext(DataContext)
 
   // Temporary price range state
   const [priceRange, setPriceRange] = useState<[number, number]>([
@@ -94,10 +94,8 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
       params.delete("subCategoryId")
     }
 
-    // Keep limit if present, otherwise default to 20
-    if (!params.get("limit")) {
-      params.set("limit", "20")
-    }
+  
+    
 
     // Always reset page to 1 when filters change
     params.delete("page")
@@ -241,13 +239,13 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
       {renderCollapsible(
         "Brand",
         "brandId",
-        ["Nike", "Adidas", "Puma"].map((b) => (
-          <div key={b} className="flex items-center space-x-2">
+        brands.map((b) => (
+          <div key={b.id} className="flex items-center space-x-2">
             <Checkbox
-              checked={filters.brandId.includes(b)}
-              onCheckedChange={() => handleCheckbox("brandId", b)}
+              checked={filters.brandId.includes(b.id)}
+              onCheckedChange={() => handleCheckbox("brandId", b.id)}
             />
-            <label>{b}</label>
+            <label>{b.title}</label>
           </div>
         ))
       )}

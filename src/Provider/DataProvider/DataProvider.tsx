@@ -3,13 +3,12 @@
 import { CategoryType } from "@/Types/Types";
 import React, { createContext, useState, useEffect} from "react";
 
-type DataType = { id: string; title: string }[];
 
-export const DataContext = createContext<{ categories: CategoryType[] }>({ categories: [] });
+export const DataContext = createContext<{ categories: CategoryType[], brands: CategoryType[] }>({ categories: [], brands: [] });
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     const [categories, setCategories] = useState<CategoryType[]>([]);
-    const [brands, setBrands] = useState<DataType[]>([]);
+    const [brands, setBrands] = useState<CategoryType[]>([]);
 
     const fetchCategoriesData = async () => {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/with-subs`);
@@ -20,9 +19,9 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     
     
     const fetchBrandsData = async () => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/with-subs`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/brands`);
         const json = await res.json();
-        setCategories(json.data);
+        setBrands(json.data);
     };
 
 
@@ -33,7 +32,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     return (
-        <DataContext.Provider value={{ categories }}>
+        <DataContext.Provider value={{ categories, brands }}>
             {children}
         </DataContext.Provider>
     );
