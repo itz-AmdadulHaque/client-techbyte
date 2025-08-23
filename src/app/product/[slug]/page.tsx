@@ -60,7 +60,7 @@ const ProductDetails = async ({ params }: { params: { slug: string } }) => {
 
             <div className="p-4 lg:p-8">
                 <h2 className="text-2xl font-semibold mb-4">Description</h2>
-                <div dangerouslySetInnerHTML={{ __html: product.description }} />
+                <div className="tiptap" dangerouslySetInnerHTML={{ __html: product.description }} />
             </div>
         </div>
     )

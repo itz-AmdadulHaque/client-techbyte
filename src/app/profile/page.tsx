@@ -18,8 +18,6 @@ function Profile() {
 
   const router = useRouter();
 
-
-
   const { auth } = useAuth();
 
   const user = auth.user;
@@ -34,22 +32,6 @@ function Profile() {
       <div className="min-h-screen container mx-auto p-12">
 
         <div className="flex justify-center items-center gap-6 md:mt-12">
-
-          {/* {user?.image ?
-            <Image
-              src={user.image}
-              width={100}
-              height={100}
-              alt={user.firstName}
-              className="w-24 h-24 rounded-full object-cover"
-            />
-
-
-            :
-            <div className="w-24 h-24 rounded-full flex items-center justify-center bg-gray-200">
-              <User className="w-12 h-12 text-gray-500" />
-            </div>
-          } */}
 
           <ImageEditor />
 
@@ -66,7 +48,7 @@ function Profile() {
 
 
         <div className="mt-12">
-          <Tabs defaultValue={defaultTab} onValueChange={handleTabChange}>
+          <Tabs value={defaultTab} onValueChange={handleTabChange}>
 
             <TabsList className="w-full">
               <TabsTrigger value="profile">Profile</TabsTrigger>
