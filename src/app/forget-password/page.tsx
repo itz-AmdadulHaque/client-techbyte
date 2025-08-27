@@ -50,8 +50,9 @@ const ForgetPassword = () => {
             setIsApplied(true)
 
         },
-        onError: (error) => {
-            // Handle error, e.g., show error message
+        onError: (error: { response: { data: { message: string } } }) => {
+            const errorMessage = error?.response?.data?.message || "An unexpected error occurred";
+            toast.error(errorMessage, { position: 'top-center' });
             console.error("Login failed:", error);
         },
     });
@@ -69,7 +70,7 @@ const ForgetPassword = () => {
                     <p className='text-green-700'>Reset password link sent to your email</p>
 
                     <div className='flex w-56 mx-auto rounded-md justify-center px-2 py-4 items-center gap-8 mt-8 bg-muted'>
-                        <MoveLeft /> 
+                        <MoveLeft />
                         <Link href='/'>  Back to home</Link>
                     </div>
                 </div>

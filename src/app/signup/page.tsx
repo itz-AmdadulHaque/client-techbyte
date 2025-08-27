@@ -22,10 +22,7 @@ import { toast } from "sonner";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
-const loginSchema = z.object({
-    email: z.email("Invalid email"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
-});
+
 
 
 export default function SignUp() {
