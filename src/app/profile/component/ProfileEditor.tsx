@@ -33,20 +33,20 @@ const ProfileEditor = () => {
 
     const { mutate: updateProfile, isPending } = useMutation({
         mutationFn: updateUser,
-        // onSuccess: (data) => {
-        //     // Handle successful login, e.g., redirect or show success message
+        onSuccess: (data) => {
+            // Handle successful login, e.g., redirect or show success message
 
 
-        //     setAuth({
-        //         accessToken: data.data.accessToken,
-        //         user: data.data.user,
-        //         isLoading: false,
-        //     })
+            setAuth({
+                accessToken: data.data.accessToken,
+                user: data.data.user,
+                isLoading: false,
+            })
 
-        //     // router.push("/")
+            // router.push("/")
 
 
-        // },
+        },
         onError: (error) => {
             // Handle error, e.g., show error message
             console.error("Login failed:", error);

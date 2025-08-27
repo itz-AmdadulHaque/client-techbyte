@@ -10,6 +10,7 @@ import ProfileEditor from "./component/ProfileEditor";
 import AddressEditor from "./component/AddressEditor";
 import { useRouter, useSearchParams } from "next/navigation";
 import ImageEditor from "./component/ImageEditor";
+import ResetPassword from "./component/ResetPassword";
 
 function Profile() {
 
@@ -71,7 +72,7 @@ function Profile() {
             </TabsContent>
 
             <TabsContent value="password">
-              hello
+              <ResetPassword />
             </TabsContent>
 
             <TabsContent value="orders">

@@ -21,11 +21,7 @@ import { useRouter } from "next/navigation";
 
 
 const loginSchema = z.object({
-  phone: z
-    .string()
-    .min(11, "Phone number must be 11 digits")
-    .max(11, "Phone number must be 11 digits")
-    .regex(/^\d+$/, "Phone number must contain only digits"),
+  email: z.email("Invalid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
@@ -35,7 +31,7 @@ export default function LoginForm() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      phone: "",
+      email: "",
       password: ""
     },
   });
@@ -56,7 +52,7 @@ export default function LoginForm() {
     mutationFn: userLogin,
     onSuccess: (data) => {
       // Handle successful login, e.g., redirect or show success message
-      
+
 
       setAuth({
         accessToken: data.data.accessToken,
@@ -119,13 +115,13 @@ export default function LoginForm() {
 
             <FormField
               control={form.control}
-              name="phone"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <Input
-                    type="text"
-                    placeholder="01xxxxxxxxx"
+                    type="email"
+                    placeholder="example@mail.com"
                     {...field}
                   />
                   <FormMessage />
@@ -152,6 +148,7 @@ export default function LoginForm() {
             />
 
 
+
             <Button disabled={isPending} type="submit" className="w-full">
               {
                 isPending ? "Logging in..." : "Login"
@@ -160,11 +157,17 @@ export default function LoginForm() {
           </form>
         </Form>
 
-        <div className="text-center mt-4">
+        <div className="flex justify-between mt-4">
           <p className="text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            New user?{" "}
             <a href="/signup" className="text-blue-600 hover:underline">
               Sign Up
+            </a>
+          </p>
+
+          <p className="text-sm text-muted-foreground">
+            <a href="/forget-password" className="hover:underline">
+              Forgot you password?
             </a>
           </p>
         </div>

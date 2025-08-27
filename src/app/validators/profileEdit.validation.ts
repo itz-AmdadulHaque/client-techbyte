@@ -32,7 +32,7 @@ export type AddressSchema = z.infer<typeof addressSchema>;
 export const passwordSchema = z
     .object({
         oldPassword: z.string().min(6, "Please enter your current password."),
-        password: z
+        newPassword: z
             .string()
             .trim()
             .min(6, "Password must be at least 6 characters long")
@@ -49,7 +49,7 @@ export const passwordSchema = z
         confirmPassword: z.string().min(6, "Password must be at least 6 characters long"),
 
     })
-    .refine((data) => data.password === data.confirmPassword, {
+    .refine((data) => data.newPassword === data.confirmPassword, {
         path: ["confirmPassword"],
         message: "Passwords do not match",
     });
