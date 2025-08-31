@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addressSchema, AddressSchema, profileSchema, ProfileSchema } from '@/app/validators/profileEdit.validation';
+import { addressSchema, AddressSchema } from '@/validators/profileEdit.validation';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';

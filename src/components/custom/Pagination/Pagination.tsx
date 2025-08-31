@@ -22,11 +22,13 @@ import { useCallback, useState } from "react"
 interface CustomPaginationProps {
     currentPage: number
     totalPages: number
+    limitOptions?: number[]
 }
 
 export default function CustomPagination({
     currentPage,
     totalPages,
+    limitOptions = []
 }: CustomPaginationProps) {
     const router = useRouter()
     const pathname = usePathname()
@@ -84,25 +86,28 @@ export default function CustomPagination({
 
             <div className="flex flex-wrap gap-4 justify-between items-center">
 
-                <div className="flex items-center space-x-2">
-                    <span className="text-sm">Items per page:</span>
+                {
+                    limitOptions.length > 0 ? <div className="flex items-center space-x-2">
+                        <span className="text-sm">Items per page:</span>
 
-                    <Select
-                        value={String(limit)}
-                        onValueChange={(val: string) => changeLimit(Number(val))}
-                    >
-                        <SelectTrigger className="w-[80px] h-8 text-sm">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="20">20</SelectItem>
-                            <SelectItem value="30">30</SelectItem>
-                            <SelectItem value="40">40</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+                        <Select
+                            value={String(limit)}
+                            onValueChange={(val: string) => changeLimit(Number(val))}
+                        >
+                            <SelectTrigger className="w-[80px] h-8 text-sm">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
 
-                
+                                {limitOptions.map((option) => <SelectItem key={option + "limit"} value={option.toString()}>{option}</SelectItem>)}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                        :
+                        <div></div>
+                }
+
+
                 {totalPages > 1 && (
                     <Pagination>
                         <PaginationContent>

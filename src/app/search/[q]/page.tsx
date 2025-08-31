@@ -90,6 +90,7 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
         <CustomPagination
           currentPage={data.data.currentPage}
           totalPages={data.data.totalPages || 1}
+          limitOptions={[20, 30, 40]}
         />
 
 

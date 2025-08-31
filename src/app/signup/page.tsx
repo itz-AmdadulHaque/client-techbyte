@@ -13,7 +13,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { customerSchema, CustomerSchema } from "../validators/customer.validation";
+import { customerSchema, CustomerSchema } from "../../validators/customer.validation";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";

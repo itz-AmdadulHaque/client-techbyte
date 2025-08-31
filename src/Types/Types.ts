@@ -20,6 +20,23 @@ export type Auth = {
   isLoading: boolean;
 };
 
+export type ConsultantType = {
+  id: string;
+  title: string;
+  fullName: string;
+  image: string;
+  bio: string;
+  slug: string;
+  address: string;
+  experience: string | number;
+  categoryId: string;
+  isActive: boolean;
+  isDeleted: boolean
+  category: CategoryType;
+  specializations: string[];
+  qualifications: { title: string, institute: string }[]
+}
+
 export type SubCategory = {
   id: string;
   title: string;

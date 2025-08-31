@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Grid3x3, Search, ShoppingCart, ShoppingBag, Monitor, Smartphone, Laptop, Store, Tags } from "lucide-react";
+import { Home, ShoppingCart, ShoppingBag, Monitor, Smartphone, Laptop, Store, Tags, Wrench, Briefcase, Package, Package2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -48,14 +48,19 @@ const navItems: NavItemType[] = [
     ]
   },
   {
-    label: "Brands",
-    href: "/brands",
-    icon: <Grid3x3 size={20} />
+    label: "Services",
+    href: "/services",
+    icon: <Wrench size={20} />
   },
   {
-    label: "Categories",
-    href: "/categories",
-    icon: <Tags size={20} />,
+    label: "Consultants",
+    href: "/consultants",
+    icon: <Briefcase size={20} />,
+  },
+  {
+    label: "Request Product",
+    href: "/request-product",
+    icon: <Package2 size={20} />,
   },
 ];
 
