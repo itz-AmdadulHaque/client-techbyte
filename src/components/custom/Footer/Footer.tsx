@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 
 
@@ -332,6 +333,13 @@ export default function Footer() {
                     <p className="text-gray-400 text-sm">
                         © 2025 TechVibe Global. All rights reserved. | Connecting Technology
                         and Sustainability
+                    </p>
+                </div>
+                
+                
+                <div className="text-center pt-8 ">
+                    <p className="text-gray-400 text-sm">
+                        Developed by - <Link className="text-blue-500 font-extrabold text-xl" href="https://softzyne.com/" target="_blank">Softzyne</Link>
                     </p>
                 </div>
             </div>

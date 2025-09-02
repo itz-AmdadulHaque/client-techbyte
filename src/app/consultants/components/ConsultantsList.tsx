@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ConsultantsFilterForm from "./consultantsFilter";
 import CustomPagination from "@/components/custom/Pagination/Pagination";
+import { ConsultantDetails } from "./ConsultantDetails";
 
 export async function ConsultantList({
     searchParams,
@@ -49,7 +50,7 @@ export async function ConsultantList({
                                 alt={consultant.fullName}
                                 width={80}
                                 height={80}
-                                className="rounded-full object-cover"
+                                className="w-28 h-28 rounded-full object-cover"
                             />
                             <div>
                                 <h3 className="font-semibold">{consultant.fullName}</h3>
@@ -58,7 +59,12 @@ export async function ConsultantList({
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-sm mb-3">{consultant.bio}</p>
+                            <p className="text-sm mb-3">{
+                                consultant.bio.length > 70 ?
+                                    consultant.bio.slice(0, 70) + "......"
+                                    :
+                                    consultant.bio
+                            }</p>
                             <div className="flex flex-wrap gap-2 mb-4">
                                 {consultant.specializations.map((spec, i) => (
                                     <span
@@ -70,9 +76,10 @@ export async function ConsultantList({
                                 ))}
                             </div>
                             <div className="flex justify-between">
-                                <Button asChild variant="default">
+                                {/* <Button asChild variant="default">
                                     <Link href={`/consultants/${consultant.slug}`}>Show Details</Link>
-                                </Button>
+                                </Button> */}
+                                <ConsultantDetails consultant={consultant} />
                                 <Button variant="outline">Contact Admin</Button>
                             </div>
                         </CardContent>
