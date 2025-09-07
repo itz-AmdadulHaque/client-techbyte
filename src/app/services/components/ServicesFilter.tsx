@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import { Form, FormField, FormItem,  FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
@@ -17,7 +17,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function ConsultantsFilterForm({ categories }: { categories: { slug: string; title: string }[] }) {
+export default function ServicesFilterForm({ categories }: { categories: { slug: string; title: string }[] }) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -37,7 +37,7 @@ export default function ConsultantsFilterForm({ categories }: { categories: { sl
         if (values.name) params.set("name", values.name);
         if (values.category && values.category !== "all") params.set("category", values.category);
 
-        router.push(`/consultants?${params.toString()}`);
+        router.push(`/services?${params.toString()}`);
     };
 
     // Handle clear
@@ -46,7 +46,7 @@ export default function ConsultantsFilterForm({ categories }: { categories: { sl
             name: "",
             category: "all",
         });
-        router.push("/consultants");
+        router.push("/services");
     };
 
     return (

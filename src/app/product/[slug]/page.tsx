@@ -51,7 +51,7 @@ const ProductDetails = async ({ params }: { params: { slug: string } }) => {
 
                     <ItemCounter />
 
-                    <AddToCart id={product.id} />
+                    <AddToCart id={product.id} type="product" />
 
                 </div>
 

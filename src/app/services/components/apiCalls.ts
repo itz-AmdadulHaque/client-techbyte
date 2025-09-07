@@ -3,14 +3,14 @@ export async function getCategories() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories`, {
         cache: "no-store", // SSR fresh data
     });
-    if (!res.ok) throw new Error("Failed to fetch categories");
+    if (!res.ok) throw new Error("Failed to fetch services");
 
     const data = await res.json()
 
     return data.data;
 }
 
-export async function getConsultants(params: {
+export async function getServices(params: {
     name?: string;
     page?: number;
     limit?: number;
@@ -23,10 +23,10 @@ export async function getConsultants(params: {
     if (params.category) query.set("category", params.category);
 
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/consultants?${query.toString()}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/services?${query.toString()}`,
         { cache: "no-store" }
     );
-    if (!res.ok) throw new Error("Failed to fetch consultants");
+    if (!res.ok) throw new Error("Failed to fetch services");
 
     const data = await res.json()
 

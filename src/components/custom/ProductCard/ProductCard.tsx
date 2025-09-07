@@ -6,7 +6,7 @@ import AddToCart from "@/components/custom/AddToCart/AddToCart"
 import { Card, CardContent } from "@/components/ui/card"
 import { Product } from '@/Types/Types'
 
-const ProductCard = ({product}: {product: Product}) => {
+const ProductCard = ({ product }: { product: Product }) => {
     return (
         <Card key={product.id} className="h-full m-2">
             <CardContent className="h-full flex flex-col">
@@ -40,7 +40,7 @@ const ProductCard = ({product}: {product: Product}) => {
                     <Link href={`/product/${product.id}`}>
                         <Button >VIEW</Button>
                     </Link>
-                    <AddToCart variant="outline" id={product.id} />
+                    <AddToCart variant="outline" id={product.id} type='product' />
                 </div>
             </CardContent>
         </Card>

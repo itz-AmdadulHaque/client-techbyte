@@ -17,7 +17,7 @@ import googleLogo from "../../../public/google.png";
 import { axiosPrivate } from "@/config/axios";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "@/hooks/useAuth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 const loginSchema = z.object({
@@ -28,6 +28,9 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
+
+  const searchParams = useSearchParams();
+
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -60,7 +63,15 @@ export default function LoginForm() {
         isLoading: false,
       })
 
-      router.push("/")
+      const type = searchParams.get("type")
+      const slug = searchParams.get("slug")
+
+      if (type && slug) {
+        router.push(`/${type}/${slug}`)
+      }
+      else {
+        router.push("/profile")
+      }
 
 
     },

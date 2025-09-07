@@ -1,12 +1,7 @@
 
-import { Card, CardContent } from "@/components/ui/card"
 import SearchFilters from "./components/SearchFilter"
 import { DataProvider } from "@/Provider/DataProvider/DataProvider"
 import { Product } from "@/Types/Types"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import AddToCart from "@/components/custom/AddToCart/AddToCart"
 import { fetchData } from "@/lib/fetchFunction"
 import CustomPagination from "@/components/custom/Pagination/Pagination"
 import ProductCard from "@/components/custom/ProductCard/ProductCard"

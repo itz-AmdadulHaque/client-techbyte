@@ -1,9 +1,27 @@
-import React from 'react'
+// app/consultants/page.tsx
+import { Suspense } from "react";
+import { Metadata } from "next";
+import { ServiceList } from "./components/ServicesList";
 
-const Services = () => {
+export const metadata: Metadata = {
+  title: "Consultants | TechVibe Global",
+  description:
+    "Protecting your business with comprehensive fire safety, infrastructure integrity, and IT security solutions from certified professionals.",
+};
+
+export default async function ConsultantsPage({
+  searchParams,
+}: {
+  searchParams: {
+    name?: string;
+    page?: string;
+    limit?: string;
+    category?: string;
+  };
+}) {
   return (
-    <div>Services</div>
-  )
+    <Suspense fallback={<div>Loading consultants...</div>}>
+      <ServiceList searchParams={searchParams} />
+    </Suspense>
+  );
 }
-
-export default Services

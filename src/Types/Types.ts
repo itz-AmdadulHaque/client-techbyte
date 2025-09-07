@@ -88,6 +88,7 @@ export type ProductImageType = {
 export type Product = {
   id: string;
   title: string;
+  slug: string;
   description: string;
   price?: number;
   categoryId: string;
@@ -97,6 +98,16 @@ export type Product = {
   subCategory: SubCategory;
   modelNumber: string;
   brand: CategoryType;
+  images: ProductImageType[];
+};
+
+export type ServiceType = {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  categoryId: string;
+  category: CategoryType;
   images: ProductImageType[];
 };
 

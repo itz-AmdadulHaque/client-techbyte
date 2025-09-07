@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ConsultantsFilterForm from "./consultantsFilter";
 import CustomPagination from "@/components/custom/Pagination/Pagination";
 import { ConsultantDetails } from "./ConsultantDetails";
+import SectionTitle from "@/components/custom/SectionTitle/SectionTitle";
 
 export async function ConsultantList({
     searchParams,
@@ -16,7 +17,6 @@ export async function ConsultantList({
         name?: string;
         page?: string;
         limit?: string;
-        isActive?: string;
         category?: string;
     };
 }) {
@@ -27,7 +27,6 @@ export async function ConsultantList({
         name: searchParams.name,
         page,
         limit,
-        isActive: searchParams.isActive,
         category: searchParams.category,
     });
 
@@ -37,6 +36,10 @@ export async function ConsultantList({
 
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-6">
+
+            <SectionTitle title="Expert Safety & IT Consulting Services" />
+
+            <p className="text-center my-16 max-w-[650px] mx-auto">Protecting your business with comprehensive fire safety, infrastructure integrity, and IT security solutions from certified professionals.</p>
             {/* Filters */}
             <ConsultantsFilterForm categories={categories} />
 

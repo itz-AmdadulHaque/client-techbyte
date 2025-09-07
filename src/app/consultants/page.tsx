@@ -4,9 +4,9 @@ import { Metadata } from "next";
 import { ConsultantList } from "./components/ConsultantsList";
 
 export const metadata: Metadata = {
-  title: "Consultants | SafetyPro",
+  title: "Consultants | TechVibe Global",
   description:
-    "Find expert consultants in fire safety, infrastructure integrity, and IT security.",
+    "Protecting your business with comprehensive fire safety, infrastructure integrity, and IT security solutions from certified professionals.",
 };
 
 export default async function ConsultantsPage({
@@ -16,7 +16,6 @@ export default async function ConsultantsPage({
     name?: string;
     page?: string;
     limit?: string;
-    isActive?: string;
     category?: string;
   };
 }) {
