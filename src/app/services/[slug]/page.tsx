@@ -6,9 +6,9 @@ import { ServiceType } from '@/Types/Types';
 import Image from 'next/image';
 import React from 'react'
 
-const ServiceDetails = async ({ params }: { params: { slug: string } }) => {
+const ServiceDetails = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
-    const data = await fetchData(`/services/${params.slug}`)
+    const data = await fetchData(`/services/${(await params).slug}`)
 
     const service: ServiceType = data.data;
 

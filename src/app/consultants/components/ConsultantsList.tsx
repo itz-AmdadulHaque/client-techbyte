@@ -9,25 +9,21 @@ import ConsultantsFilterForm from "./consultantsFilter";
 import CustomPagination from "@/components/custom/Pagination/Pagination";
 import { ConsultantDetails } from "./ConsultantDetails";
 import SectionTitle from "@/components/custom/SectionTitle/SectionTitle";
+// import { ConsultantsPageProps } from "../page";
 
 export async function ConsultantList({
     searchParams,
 }: {
-    searchParams: {
-        name?: string;
-        page?: string;
-        limit?: string;
-        category?: string;
-    };
+    searchParams: Record<string, string | undefined>;
 }) {
     const page = Number(searchParams.page) || 1;
     const limit = Number(searchParams.limit) || 9;
 
     const data = await getConsultants({
-        name: searchParams.name,
+        name: Array.isArray(searchParams.name) ? searchParams.name[0] : searchParams.name,
         page,
         limit,
-        category: searchParams.category,
+        category: Array.isArray(searchParams.category) ? searchParams.category[0] : searchParams.category,
     });
 
     const consultants = data.consultants || []

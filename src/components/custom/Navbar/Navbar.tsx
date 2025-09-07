@@ -14,6 +14,8 @@ import { NavItemType } from "@/Types/ComponentTypes";
 import SearchBar from "./SearchBar";
 import ModeToggle from "@/components/theme/mode-toggler";
 import Image from "next/image";
+import CartInfo from "../CartInfo/CartInfo";
+import { Suspense } from "react";
 
 const navItems: NavItemType[] = [
   {
@@ -158,9 +160,11 @@ export default function Navbar() {
 
           <div className="flex items-center gap-4">
 
-            <SearchBar />
+            <Suspense>
+              <SearchBar />
+            </Suspense>
 
-            <ShoppingCart className="hidden lg:block h-6 w-6 text-gray-600 cursor-pointer" />
+            <CartInfo className="hidden lg:block" />
 
             <div className="hidden lg:block">
               <ModeToggle />

@@ -6,11 +6,11 @@ import { Product } from '@/Types/Types';
 import Image from 'next/image';
 import React from 'react'
 
-const ProductDetails = async ({ params }: { params: { slug: string } }) => {
+const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
 
 
-    const data = await fetchData(`/products/${params.slug}`)
+    const data = await fetchData(`/products/${(await params).slug}`)
 
     const product: Product = data.data;
 

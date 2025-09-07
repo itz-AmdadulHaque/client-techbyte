@@ -8,8 +8,8 @@ import ProductCard from "@/components/custom/ProductCard/ProductCard"
 
 
 interface SearchPageProps {
-  params: { q: string }
-  searchParams: {
+  params: Promise<{ q: string }>
+  searchParams: Promise<{
     brandId?: string
     categoryId?: string
     subCategoryId?: string
@@ -17,7 +17,7 @@ interface SearchPageProps {
     maxPrice?: string
     page?: string
     limit?: string
-  }
+  }>
 }
 
 export default async function SearchPage({ params, searchParams }: SearchPageProps) {
@@ -26,19 +26,19 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
 
 
   const filters = {
-    name: decodeURIComponent(params.q),
-    brandId: searchParams.brandId?.split(",") || [],
-    categoryId: searchParams.categoryId?.split(",") || [],
-    subCategoryId: searchParams.subCategoryId?.split(",") || [],
-    minPrice: Number(searchParams.minPrice || 0),
-    maxPrice: Number(searchParams.maxPrice || 1000000),
+    name: decodeURIComponent((await params).q),
+    brandId: (await searchParams).brandId?.split(",") || [],
+    categoryId: (await searchParams).categoryId?.split(",") || [],
+    subCategoryId: (await searchParams).subCategoryId?.split(",") || [],
+    minPrice: Number((await searchParams).minPrice || 0),
+    maxPrice: Number((await searchParams).maxPrice || 1000000),
   }
 
-  const page = Number(searchParams.page || 1)
-  const limit = Number(searchParams.limit || 20)
+  const page = Number((await searchParams).page || 1)
+  const limit = Number((await searchParams).limit || 20)
 
   const query = new URLSearchParams({
-    search: params.q,
+    search: (await params).q,
     ...(filters.brandId.length > 0 ? { brandId: filters.brandId.join(",") } : {}),
     ...(filters.categoryId.length > 0 ? { categoryId: filters.categoryId.join(",") } : {}),
     ...(filters.subCategoryId.length > 0 ? { subCategoryId: filters.subCategoryId.join(",") } : {}),
