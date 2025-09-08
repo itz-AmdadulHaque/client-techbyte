@@ -5,6 +5,7 @@ import { fetchData } from '@/lib/fetchFunction'
 import { Product } from '@/Types/Types';
 import Image from 'next/image';
 import React from 'react'
+import HandleAddToCart from '../HandleAddToCart';
 
 const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
@@ -49,9 +50,7 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
                         {product.price?.toFixed(2)}
                     </p>
 
-                    <ItemCounter />
-
-                    <AddToCart id={product.id} type="product" />
+                    <HandleAddToCart id={product.id} />
 
                 </div>
 

@@ -13,6 +13,8 @@ const AddToCart = ({
     variant,
     id,
     type,
+    count,
+    successResponse,
 }: {
     variant?:
     | "link"
@@ -23,24 +25,31 @@ const AddToCart = ({
     | "ghost";
     id: string;
     type: string;
+    count: number;
+    successResponse?: () => void;
 }) => {
     const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
     const router = useRouter();
 
+
     const handleAddToCart = async ({
         id,
         type,
+        count = 1,
+
     }: {
         id: string;
         type: string;
+        count: number;
+
     }) => {
         if (!auth.accessToken) {
             router.push(`/login?type=${type}&slug=${id}`);
             throw new Error("Please login to continue");
         }
 
-        const res = await axiosPrivate.post("/cart", { type, itemId: id });
+        const res = await axiosPrivate.post("/cart", { type, itemId: id, count });
         return res.data;
     };
 
@@ -50,6 +59,7 @@ const AddToCart = ({
         onSuccess: (data) => {
             toast.success(data.message, { position: "top-center" });
             queryClient.invalidateQueries({ queryKey: ["cartInfo"] });
+            successResponse?.();
         },
         onError: (error: { response?: { data?: { message?: string } }; message?: string }) => {
             const errorMessage =
@@ -63,7 +73,7 @@ const AddToCart = ({
     return (
         <Button
             variant={variant}
-            onClick={() => addToCart({ id, type })}
+            onClick={() => addToCart({ id, type, count })}
             disabled={isPending} // 🔒 disables ALL AddToCart buttons globally
         >
             {isPending ? "ADDING..." : "ADD TO CART"}

@@ -1,26 +1,27 @@
 "use client";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface CounterProps {
-  initialValue?: number;
+  value?: number; // ✅ controlled value
+  initialValue?: number; // ✅ fallback for uncontrolled
   min?: number;
   max?: number;
   onChange?: (value: number) => void;
 }
 
 export default function ItemCounter({
+  value,
   initialValue = 1,
   min = 1,
-  max = 99,
+  max,
   onChange,
 }: CounterProps) {
-  const [count, setCount] = useState(initialValue);
+  const count = value ?? initialValue; // ✅ use parent value if provided
 
-  const updateCount = (value: number) => {
-    if (value < min || value > max) return;
-    setCount(value);
-    onChange?.(value);
+  const updateCount = (newValue: number) => {
+    if (newValue < min) return;
+    if (max && newValue > max) return;
+    onChange?.(newValue);
   };
 
   return (
@@ -36,7 +37,7 @@ export default function ItemCounter({
       <Button
         variant="outline"
         onClick={() => updateCount(count + 1)}
-        disabled={count >= max}
+        disabled={max ? count >= max : false}
       >
         +
       </Button>
