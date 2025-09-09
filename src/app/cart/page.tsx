@@ -2,7 +2,7 @@
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useCartInfo } from '@/hooks/useCartInfo';
-import { ProductItemType } from '@/Types/ComponentTypes';
+import { ProductItemType, ServiceItemType } from '@/Types/ComponentTypes';
 import { Minus, Plus } from 'lucide-react';
 import React, { useState } from 'react'
 import ProductItemBox from './components/ProductItemBox';
@@ -71,7 +71,7 @@ const Cart = () => {
             <CollapsibleContent>
 
               {
-                services.map((serviceItem: ProductItemType) => <ServiceItemBox key={serviceItem.id} service={serviceItem} />
+                services.map((serviceItem: ServiceItemType) => <ServiceItemBox key={serviceItem.id} service={serviceItem} />
                 )
               }
 

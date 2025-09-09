@@ -3,27 +3,22 @@
 import ItemCounter from '@/components/custom/ItemCounter/ItemCounter';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { queryClient } from '@/Provider/ReactQueryClientProvider';
-import { ProductItemType } from '@/Types/ComponentTypes'
+import { ProductItemType, ServiceItemType } from '@/Types/ComponentTypes'
 import { useMutation } from '@tanstack/react-query';
-import { Trash, Trash2, X } from 'lucide-react';
+import { Pencil, Trash, Trash2, X } from 'lucide-react';
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { toast } from 'sonner';
+import EditServiceDescription from './EditServiceDescription';
 
-const ServiceItemBox = ({ service }: { service: ProductItemType }) => {
+const ServiceItemBox = ({ service }: { service: ServiceItemType }) => {
 
-    const [count, setCount] = useState(service.quantity);
     const axiosPrivate = useAxiosPrivate();
 
     console.log(service);
 
 
-    const updateCart = async (updateType: string) => {
 
-        const newQuantity = updateType === "+" ? count + 1 : count - 1;
-        await axiosPrivate.put(`/cart/service/${service.id}`, { quantity: newQuantity });
-        return updateType;
-    };
 
 
     const removeItem = async () => {
@@ -32,26 +27,11 @@ const ServiceItemBox = ({ service }: { service: ProductItemType }) => {
         return res;
     };
 
-    const { mutate: updateCount } = useMutation({
-        mutationKey: ["updateCart"],
-        mutationFn: updateCart,
-        onSuccess: (data) => {
-
-            setCount((prev) => data === "+" ? prev + 1 : prev - 1);
-
-        },
-        onError: (error: { response: { data: { message: string } } }) => {
-            const errorMessage = error?.response?.data?.message || "An unexpected error occurred";
-            toast.error(errorMessage, { position: 'top-center' });
-            console.error("Update failed:", error);
-        },
-    });
-
 
     const { mutate: removeProductItem } = useMutation({
         mutationKey: ["removeCartItem"],
         mutationFn: removeItem,
-        onSuccess: (data) => {
+        onSuccess: () => {
 
             toast.success("Item removed", { position: 'top-center' });
             queryClient.invalidateQueries({ queryKey: ["cartInfo"] });
@@ -92,7 +72,16 @@ const ServiceItemBox = ({ service }: { service: ProductItemType }) => {
 
 
             </div>
-            
+
+            <div className='border text-sm relative p-3 rounded-md min-w-56'>
+                <span className="absolute -top-2 left-3 bg-white px-1 text-xs text-gray-600">
+                    Description
+                </span>
+                <p>
+                    {service.description}
+                </p>
+                <EditServiceDescription id={service.id} serviceDescription={service.description} />
+            </div>
 
             <button
                 type="button"
