@@ -15,11 +15,6 @@ const ServiceItemBox = ({ service }: { service: ServiceItemType }) => {
 
     const axiosPrivate = useAxiosPrivate();
 
-    console.log(service);
-
-
-
-
 
     const removeItem = async () => {
 

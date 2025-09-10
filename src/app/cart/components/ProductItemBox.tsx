@@ -36,6 +36,7 @@ const ProductItemBox = ({ product }: { product: ProductItemType }) => {
         onSuccess: (data) => {
 
             setCount((prev) => data === "+" ? prev + 1 : prev - 1);
+            queryClient.invalidateQueries({ queryKey: ["cartInfo"] });
 
         },
         onError: (error: { response: { data: { message: string } } }) => {

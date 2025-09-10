@@ -62,7 +62,7 @@ const EditServiceDescription = ({ id, serviceDescription }: { serviceDescription
                 <Button
                     onClick={() => updateService()}
                     className="mt-3 w-full"
-                    disabled={isPending}
+                    disabled={isPending || description == serviceDescription}
                 >
                     {isPending ? "Saving..." : "Save"}
                 </Button>
