@@ -115,3 +115,17 @@ export type BreadcrumbItemType = {
   label: string;
   href?: string; // If not provided, it's the current page
 };
+
+export type OrderType = {
+  id: string;
+  address: string;
+  phone: string;
+  productRequestStatus: string;
+  productStatus: string;
+  serviceStatus: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  _count: { productItems: number, serviceItems: number, productRequests: number }
+
+}

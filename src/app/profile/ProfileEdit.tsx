@@ -12,11 +12,19 @@ import AddressEditor from "./component/AddressEditor";
 import { useRouter, useSearchParams } from "next/navigation";
 import ImageEditor from "./component/ImageEditor";
 import ResetPassword from "./component/ResetPassword";
+import OrdersList from "./component/OrdersList";
 
 function ProfileComponent() {
 
   const searchParams = useSearchParams();
   const defaultTab = searchParams.get("tab") || "profile";
+
+  //order
+  const search = searchParams.get("search");
+  const page = searchParams.get("page");
+  const limit = searchParams.get("limit");
+  const status = searchParams.get("status");
+
 
   const router = useRouter();
 
@@ -77,7 +85,7 @@ function ProfileComponent() {
             </TabsContent>
 
             <TabsContent value="orders">
-              hello
+              <OrdersList searchParams={{ page, limit, status, search }} />
             </TabsContent>
 
 
