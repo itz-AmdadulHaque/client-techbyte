@@ -3,14 +3,13 @@
 import ItemCounter from '@/components/custom/ItemCounter/ItemCounter';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { queryClient } from '@/Provider/ReactQueryClientProvider';
-import { ProductCartItemType } from '@/Types/ComponentTypes'
+import { ProductRequestCartItemType } from '@/Types/ComponentTypes'
 import { useMutation } from '@tanstack/react-query';
-import { Trash, Trash2, X } from 'lucide-react';
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { toast } from 'sonner';
 
-const ProductItemBox = ({ product }: { product: ProductCartItemType }) => {
+const ProductRequestItemBox = ({ product }: { product: ProductRequestCartItemType }) => {
 
     const [count, setCount] = useState(product.quantity);
     const axiosPrivate = useAxiosPrivate();
@@ -19,14 +18,14 @@ const ProductItemBox = ({ product }: { product: ProductCartItemType }) => {
     const updateCart = async (updateType: string) => {
 
         const newQuantity = updateType === "+" ? count + 1 : count - 1;
-        await axiosPrivate.put(`/cart/product/${product.id}`, { quantity: newQuantity });
+        await axiosPrivate.put(`/cart/product-requests/${product.id}`, { quantity: newQuantity });
         return updateType;
     };
 
 
     const removeItem = async () => {
 
-        const res = await axiosPrivate.delete(`/cart/product/${product.id}`);
+        const res = await axiosPrivate.delete(`/cart/product-requests/${product.id}`);
         return res;
     };
 
@@ -69,21 +68,21 @@ const ProductItemBox = ({ product }: { product: ProductCartItemType }) => {
                 height={70}
                 width={70}
                 className='w-20 h-20 object-contain'
-                src={`${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.product.images[0].image}`}
-                alt={product.product.title}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.image}`}
+                alt={product.title}
             />
 
 
             <div>
-                <h2 className='text-xl font-semibold'>{product.product.title}</h2>
+                <h2 className='text-xl font-semibold'>{product.title}</h2>
 
-                {product.product.price
+                {product.price
                     ?
                     <p className="text-md mt-4 flex items-center gap-1">
 
                         <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
 
-                        <span>{product.product.price}</span>
+                        <span>{product.price}</span>
                     </p>
                     :
                     <p className="text-md mt-4 text-muted-foreground">Price on Request</p>
@@ -114,4 +113,4 @@ const ProductItemBox = ({ product }: { product: ProductCartItemType }) => {
     )
 }
 
-export default ProductItemBox
+export default ProductRequestItemBox

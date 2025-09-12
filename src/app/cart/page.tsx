@@ -2,7 +2,7 @@
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useCartInfo } from '@/hooks/useCartInfo';
-import { ProductItemType, ServiceItemType } from '@/Types/ComponentTypes';
+import { ProductCartItemType, ProductRequestCartItemType, ServiceItemType } from '@/Types/ComponentTypes';
 import { Minus, Plus } from 'lucide-react';
 import React, { useState, useMemo } from 'react'
 import ProductItemBox from './components/ProductItemBox';
@@ -20,6 +20,7 @@ import { toast } from 'sonner';
 import { queryClient } from '@/Provider/ReactQueryClientProvider';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter } from 'next/navigation';
+import ProductRequestItemBox from './components/ProductRequestItemBox';
 
 const Cart = () => {
   const { data: cartInfo } = useCartInfo();
@@ -110,7 +111,7 @@ const Cart = () => {
                 {productOpen ? <Minus strokeWidth={2.5} /> : <Plus strokeWidth={2.5} />}
               </CollapsibleTrigger>
               <CollapsibleContent>
-                {products.map((productItem: ProductItemType) => (
+                {products.map((productItem: ProductCartItemType) => (
                   <ProductItemBox key={productItem.id} product={productItem} />
                 ))}
               </CollapsibleContent>
@@ -150,8 +151,8 @@ const Cart = () => {
                 {productRequestOpen ? <Minus strokeWidth={2.5} /> : <Plus strokeWidth={2.5} />}
               </CollapsibleTrigger>
               <CollapsibleContent>
-                {productRequests.map((productItem: ProductItemType) => (
-                  <ProductItemBox key={productItem.id} product={productItem} />
+                {productRequests.map((productItem: ProductRequestCartItemType) => (
+                  <ProductRequestItemBox key={productItem.id} product={productItem} />
                 ))}
               </CollapsibleContent>
             </Collapsible>

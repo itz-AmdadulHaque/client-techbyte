@@ -47,50 +47,52 @@ const OrdersList = ({
                 </div>
                     :
                     <div>
-                        {orders?.orders?.map((order: OrderType) => <div key={order.id}
-                            className='text-sm border my-4 p-6 bg-muted rounded-md'
-                        >
+                        {orders?.orders?.map((order: OrderType) => <Link key={order.id} href={`/orders/${order.id}`}>
+                            <div
+                                className='text-sm border my-4 p-6 bg-muted rounded-md'
+                            >
 
-                            <div className='flex flex-wrap justify-between pb-3 border-b-2 mb-3 '>
-                                <Badge variant="warning">Pending</Badge>
+                                <div className='flex flex-wrap justify-between pb-3 border-b-2 mb-3 '>
+                                    <Badge variant="warning">Pending</Badge>
 
-                                <span className='font-semibold'>ID: {order.id}</span>
-                            </div>
+                                    <span className='font-semibold'>ID: {order.id}</span>
+                                </div>
 
 
-                            <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-                                <div className="text-sm font-semibold text-gray-700 mb-2">Order Summary</div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                                <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+                                    <div className="text-sm font-semibold text-gray-700 mb-2">Order Summary</div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
 
-                                    <div className="bg-white p-3 rounded-md border border-gray-200">
-                                        <div className="text-gray-500 text-xs uppercase tracking-wide">Products</div>
-                                        <div className="mt-1 text-lg font-bold text-gray-900">
-                                            {order._count.productItems}
+                                        <div className="bg-white p-3 rounded-md border border-gray-200">
+                                            <div className="text-gray-500 text-xs uppercase tracking-wide">Products</div>
+                                            <div className="mt-1 text-lg font-bold text-gray-900">
+                                                {order._count.productItems}
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="bg-white p-3 rounded-md border border-gray-200">
-                                        <div className="text-gray-500 text-xs uppercase tracking-wide">Services</div>
-                                        <div className="mt-1 text-lg font-bold text-gray-900">
-                                            {order._count.serviceItems}
+                                        <div className="bg-white p-3 rounded-md border border-gray-200">
+                                            <div className="text-gray-500 text-xs uppercase tracking-wide">Services</div>
+                                            <div className="mt-1 text-lg font-bold text-gray-900">
+                                                {order._count.serviceItems}
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="bg-white p-3 rounded-md border border-gray-200">
-                                        <div className="text-gray-500 text-xs uppercase tracking-wide">Product Requests</div>
-                                        <div className="mt-1 text-lg font-bold text-gray-900">
-                                            {order._count.productRequests}
+                                        <div className="bg-white p-3 rounded-md border border-gray-200">
+                                            <div className="text-gray-500 text-xs uppercase tracking-wide">Product Requests</div>
+                                            <div className="mt-1 text-lg font-bold text-gray-900">
+                                                {order._count.productRequests}
+                                            </div>
                                         </div>
-                                    </div>
 
+                                    </div>
+                                </div>
+
+                                <div className='flex gap-2 mt-5'>
+                                    <p className='font-semibold'>Order Date:</p>
+                                    <p className='font-bold'>{dateFormatter(order.createdAt)}</p>
                                 </div>
                             </div>
-
-                            <div className='flex gap-2 mt-5'>
-                                <p className='font-semibold'>Order Date:</p>
-                                <p className='font-bold'>{dateFormatter(order.createdAt)}</p>
-                            </div>
-                        </div>)}
+                        </Link>)}
 
                         <CustomPagination
                             currentPage={orders?.currentPage}

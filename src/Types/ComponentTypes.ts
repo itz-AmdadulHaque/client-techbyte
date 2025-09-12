@@ -13,7 +13,7 @@ export type CartProduct = {
     images: [{ image: string }]
 }
 
-export type ProductItemType = {
+export type ProductCartItemType = {
     id: string;
     cartId: string;
     price?: string | number;
@@ -25,13 +25,38 @@ export type ProductItemType = {
 }
 
 
+export type ProductRequestCartItemType = {
+    id: string;
+    image: string;
+    title: string;
+    cartId: string;
+    price?: string | number;
+    quantity: number;
+    description: string;
+    createAt: string;
+    updatedAt: string;
+}
+
+export type ProductOrderItemType = {
+    id: string;
+    description: string;
+    orderId: string;
+    price?: string;
+    productId: string;
+    quantity: number;
+    createdAt: string;
+    updatedAt: string;
+    product: CartProduct;
+}
+
+
 export type ServiceItemType = {
     id: string;
     cartId: string;
     price?: string | number;
     serviceId: string;
     description: string;
-    createAt: string;
+    createdAt: string;
     updatedAt: string;
     service: CartProduct;
 }

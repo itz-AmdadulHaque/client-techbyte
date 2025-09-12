@@ -3,7 +3,7 @@
 import ItemCounter from '@/components/custom/ItemCounter/ItemCounter';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { queryClient } from '@/Provider/ReactQueryClientProvider';
-import { ProductItemType, ServiceItemType } from '@/Types/ComponentTypes'
+import { ProductCartItemType, ServiceItemType } from '@/Types/ComponentTypes'
 import { useMutation } from '@tanstack/react-query';
 import { Pencil, Trash, Trash2, X } from 'lucide-react';
 import Image from 'next/image'
