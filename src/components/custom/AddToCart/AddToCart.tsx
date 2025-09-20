@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import React, { useState } from "react";
+import { CloudDownload } from "lucide-react";
 
 const AddToCart = ({
     variant,
@@ -66,8 +67,9 @@ const AddToCart = ({
         mutationKey: ["addToCart"],
         mutationFn: handleAddToCart,
         onSuccess: (data) => {
+            
             toast.success(data.message, { position: "top-center" });
-            queryClient.invalidateQueries({ queryKey: ["cartInfo"] });
+            queryClient.setQueryData(["cartInfo"], () => data.data);
             successResponse?.();
             setOpen(false);
             setDescription("");

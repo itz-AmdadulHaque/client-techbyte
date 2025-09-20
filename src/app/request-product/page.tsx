@@ -40,6 +40,12 @@ const formSchema = z.object({
   address: z.string().min(10, {
     message: 'Delivery Address must be at least 10 characters.',
   }),
+  district: z.string().min(3, {
+    message: 'District must be at least 3 characters.',
+  }),
+  thana: z.string().min(3, {
+    message: 'Thana must be at least 3 characters.',
+  }),
   description: z.string().optional(),
   file: z.instanceof(File).optional().refine(
     (file) => !file || (file && (file.size <= 10 * 1024 * 1024)), // 10MB limit
@@ -64,6 +70,8 @@ export default function ProductRequestForm() {
       quantity: 1,
       phone: '',
       address: '',
+      district: '',
+      thana: '',
       description: '',
       file: undefined,
     },
@@ -75,6 +83,8 @@ export default function ProductRequestForm() {
     fd.append("quantity", String(values.quantity));
     fd.append("phone", values.phone);
     fd.append("address", values.address);
+    fd.append("district", values.district);
+    fd.append("thana", values.thana);
     if (values.description) fd.append("description", values.description);
     if (values.file) {
       fd.append("file", values.file, values.file.name);
@@ -100,6 +110,7 @@ export default function ProductRequestForm() {
   const addCartMutation = useMutation({
     mutationFn: (data: z.infer<typeof formSchema>) => onSubmit(data, 'add-to-cart'),
     onSuccess: (data) => {
+      console.log(data);
       toast.success(data.data.message, { position: 'top-center' })
       form.reset();
       queryClient.invalidateQueries({ queryKey: ["cartInfo"] });
@@ -188,7 +199,41 @@ export default function ProductRequestForm() {
                         <FormLabel>Mobile Number <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="+1(555) 123-4567"
+                            placeholder="01xxxxxxxxx"
+                            {...field}
+                            className="rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="district"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>District <span className="text-red-500">*</span></FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Ex. Chittagong"
+                            {...field}
+                            className="rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="thana"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Thana <span className="text-red-500">*</span></FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Ex. Panchlaish"
                             {...field}
                             className="rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                           />

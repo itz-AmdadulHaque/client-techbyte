@@ -27,7 +27,7 @@ export type ProductCartItemType = {
 
 export type ProductRequestCartItemType = {
     id: string;
-    image: string;
+    fileName: string;
     title: string;
     cartId: string;
     price?: string | number;
@@ -59,4 +59,13 @@ export type ServiceItemType = {
     createdAt: string;
     updatedAt: string;
     service: CartProduct;
+}
+
+export type PaymentType = {
+  id: string;
+  method: string;
+  amount: number;
+  transactionId: string
+  date: string;
+  updatedAt: string;
 }

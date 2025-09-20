@@ -14,18 +14,20 @@ const ProductRequestItemBox = ({ product }: { product: ProductRequestCartItemTyp
     const [count, setCount] = useState(product.quantity);
     const axiosPrivate = useAxiosPrivate();
 
+    console.log(product);
+
 
     const updateCart = async (updateType: string) => {
 
         const newQuantity = updateType === "+" ? count + 1 : count - 1;
-        await axiosPrivate.put(`/cart/product-requests/${product.id}`, { quantity: newQuantity });
+        await axiosPrivate.put(`/cart/product-request/${product.id}`, { quantity: newQuantity });
         return updateType;
     };
 
 
     const removeItem = async () => {
 
-        const res = await axiosPrivate.delete(`/cart/product-requests/${product.id}`);
+        const res = await axiosPrivate.delete(`/cart/product-request/${product.id}`);
         return res;
     };
 
@@ -68,7 +70,7 @@ const ProductRequestItemBox = ({ product }: { product: ProductRequestCartItemTyp
                 height={70}
                 width={70}
                 className='w-20 h-20 object-contain'
-                src={`${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.image}`}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.fileName}`}
                 alt={product.title}
             />
 

@@ -8,7 +8,7 @@ export const useCartInfo = () => {
     const { auth } = useAuth();
 
     return useQuery({
-        queryKey: ["cartInfo", auth?.user?.id], // keep it per-user
+        queryKey: ["cartInfo"],
         queryFn: async () => {
             const res = await axiosPrivate.get("/cart");
             return res.data.data;

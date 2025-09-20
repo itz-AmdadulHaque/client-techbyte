@@ -129,3 +129,16 @@ export type OrderType = {
   _count: { productItems: number, serviceItems: number, productRequests: number }
 
 }
+
+
+export type ProductRequestOrderItemType = {
+  id: string;
+  fileName: string;
+  title: string;
+  orderId: string;
+  price?: string | number;
+  quantity: number;
+  description: string;
+  createAt: string;
+  updatedAt: string;
+}

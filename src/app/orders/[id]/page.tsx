@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { cn } from '@/lib/utils';
-import { ProductCartItemType, ProductOrderItemType, ServiceItemType } from '@/Types/ComponentTypes';
+import { PaymentType, ProductCartItemType, ProductOrderItemType, ServiceItemType } from '@/Types/ComponentTypes';
 import { useQuery } from '@tanstack/react-query';
 import { Loader, Loader2, Minus, MoveLeft, Plus } from 'lucide-react';
 import Link from 'next/link';
@@ -12,6 +12,10 @@ import React, { useMemo, useState } from 'react'
 import ProductItemBox from './components/ProductItem';
 import ServiceItemBox from './components/ServiceItemBox';
 import Image from 'next/image';
+import { dateFormatter } from '@/lib/dateFormatter';
+import { date } from 'zod';
+import { ProductRequestOrderItemType } from '@/Types/Types';
+import ProductRequestItemBox from './components/ProductRequestItem';
 
 export default function OrderInfo({ params }: { params: Promise<{ id: string }> }) {
     return <AuthCheck className="">
@@ -30,37 +34,72 @@ const OrderDetails = ({ params }: { params: Promise<{ id: string }> }) => {
     const axiosPrivate = useAxiosPrivate();
 
     const getOrderDetails = async () => {
-        const res = await axiosPrivate.get(`/orders/${(await params).id}`);
+
+        const url = `/orders/${(await params).id}`;
+        console.log(url);
+        const res = await axiosPrivate.get(url);
+
 
         return res.data.data;
     }
 
-    const { data: orderDetails, refetch: handleGetOrderDetails, isPending } = useQuery({
-        queryKey: ['get-orders'],
+    const { data: orderDetails, isPending } = useQuery({
+        queryKey: ['get-order-details'],
         queryFn: getOrderDetails,
     });
 
-    const products = orderDetails?.productItems ?? [];
-    const services = orderDetails?.serviceItems ?? [];
-    const productRequests = orderDetails?.productRequests ?? [];
+    console.log(orderDetails);
+    const products = useMemo(() => orderDetails?.productItems ?? [], [orderDetails]);
+    const services = useMemo(() => orderDetails?.serviceItems ?? [], [orderDetails]);
+    const productRequests = useMemo(() => orderDetails?.productRequests ?? [], [orderDetails]);
 
-    const { totalPrice, allProductHasPrice } = useMemo(() => {
-        let total = 0;
-        let allHasPrice = true;
+    const { productTotal, serviceTotal, productRequestTotal, allProductHasPrice, allServiceHasPrice, allProductRequestHasPrice, totalDue } = useMemo(() => {
+        let productTotal = 0;
+        let serviceTotal = 0;
+        let productRequestTotal = 0;
+        let totalDue = 0;
+
+        let allProductHasPrice = true;
+        let allServiceHasPrice = true;
+        let allProductRequestHasPrice = true;
 
         for (const productItem of products) {
-            if (!productItem.product.price) {
-                allHasPrice = false;
+            if (!productItem.price) {
+                allProductHasPrice = false;
             } else {
-                total += (Number(productItem.product.price) * productItem.quantity);
+                productTotal += (Number(productItem.price) * productItem.quantity);
             }
         }
 
-        return { totalPrice: total, allProductHasPrice: allHasPrice };
-    }, [products]);
+        for (const serviceItem of services) {
+            if (!serviceItem.price) {
+                allServiceHasPrice = false;
+            } else {
+                serviceTotal += Number(serviceItem.price);
+            }
+        }
 
 
-    console.log(orderDetails);
+        for (const productRequest of productRequests) {
+            if (!productRequest.price) {
+                allProductRequestHasPrice = false;
+            } else {
+                productRequestTotal += (Number(productRequest.price) * productRequest.quantity);
+            }
+        }
+
+        if (allProductHasPrice && allServiceHasPrice && allProductRequestHasPrice && orderDetails) {
+
+            totalDue = productTotal + serviceTotal + productRequestTotal
+            for (const payment of orderDetails.payments) {
+                totalDue -= payment.amount
+            }
+        }
+
+        return { productTotal, serviceTotal, productRequestTotal, allProductHasPrice, allServiceHasPrice, allProductRequestHasPrice, totalDue };
+    }, [products, services, productRequests, orderDetails]);
+
+
 
     return (
 
@@ -73,12 +112,14 @@ const OrderDetails = ({ params }: { params: Promise<{ id: string }> }) => {
                     </div>
                     :
                     <div>
-                        <div className='flex flex-wrap gap-3 items-center'>
+                        <div className='flex justify-between flex-wrap gap-3 items-center'>
 
                             <Link href={"/profile?tab=orders"}>
                                 <Button><MoveLeft /> Back to orders</Button>
                             </Link>
                             <h1 className='text-2xl font-bold p-6'>Order# {orderDetails?.id}</h1>
+
+                            <h2 className='font-semibold'>Order Date: {dateFormatter(orderDetails.createdAt)}</h2>
                         </div>
 
                         {/* TODO: status */}
@@ -109,7 +150,7 @@ const OrderDetails = ({ params }: { params: Promise<{ id: string }> }) => {
 
 
                                 {/* service */}
-                                {orderDetails?.serviceItems.length > 0 && (
+                                {orderDetails?.serviceItems?.length > 0 && (
                                     <Collapsible
                                         open={serviceOpen}
                                         onOpenChange={setServiceOpen}
@@ -122,6 +163,26 @@ const OrderDetails = ({ params }: { params: Promise<{ id: string }> }) => {
                                         <CollapsibleContent>
                                             {orderDetails?.serviceItems.map((serviceItem: ServiceItemType) => (
                                                 <ServiceItemBox key={serviceItem.id} service={serviceItem} date={serviceItem.createdAt} />
+                                            ))}
+                                        </CollapsibleContent>
+                                    </Collapsible>
+                                )}
+
+
+                                {/* product requests */}
+                                {orderDetails?.productRequests?.length > 0 && (
+                                    <Collapsible
+                                        open={serviceOpen}
+                                        onOpenChange={setServiceOpen}
+                                        className='border px-6 py-4 w-full text-left rounded-md bg-muted mt-6'
+                                    >
+                                        <CollapsibleTrigger className='w-full text-xl font-semibold flex justify-between mb-2'>
+                                            <p>Product Requests</p>
+                                            {serviceOpen ? <Minus strokeWidth={2.5} /> : <Plus strokeWidth={2.5} />}
+                                        </CollapsibleTrigger>
+                                        <CollapsibleContent>
+                                            {orderDetails?.productRequests.map((requestItem: ProductRequestOrderItemType) => (
+                                                <ProductRequestItemBox key={requestItem.id} product={requestItem} />
                                             ))}
                                         </CollapsibleContent>
                                     </Collapsible>
@@ -143,7 +204,7 @@ const OrderDetails = ({ params }: { params: Promise<{ id: string }> }) => {
                                         {allProductHasPrice ?
                                             <span className='flex items-center gap-1'>
                                                 <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
-                                                {totalPrice}
+                                                {productTotal}
                                             </span>
                                             :
                                             <span className='text-muted-foreground'>Quote Required</span>
@@ -157,7 +218,14 @@ const OrderDetails = ({ params }: { params: Promise<{ id: string }> }) => {
                                         <span>{`Services (${services.length})`}</span>
 
 
-                                        <span className='text-muted-foreground'>Quote Required</span>
+                                        {allServiceHasPrice ?
+                                            <span className='flex items-center gap-1'>
+                                                <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
+                                                {serviceTotal}
+                                            </span>
+                                            :
+                                            <span className='text-muted-foreground'>Quote Required</span>
+                                        }
 
                                     </p>
 
@@ -167,47 +235,79 @@ const OrderDetails = ({ params }: { params: Promise<{ id: string }> }) => {
                                         <span>{`Product Requests (${productRequests.length})`}</span>
 
 
-                                        <span className='text-muted-foreground'>Quote Required</span>
+                                        {allProductRequestHasPrice ?
+                                            <span className='flex items-center gap-1'>
+                                                <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
+                                                {productRequestTotal}
+                                            </span>
+                                            :
+                                            <span className='text-muted-foreground'>Quote Required</span>
+                                        }
 
                                     </p>
 
                                     <div className='border-t-2 my-2'></div>
 
-                                    <p className='flex justify-between items-center'>
+                                    <p className='flex justify-between items-center font-bold'>
 
-                                        <span>Total</span>
+                                        <span >Total</span>
 
-                                        {!allProductHasPrice || services.length > 0 || productRequests.length > 0 ?
+                                        {(!allProductHasPrice || !allServiceHasPrice || !allProductRequestHasPrice) ?
                                             <span className='text-muted-foreground'>Quote Required</span>
                                             :
                                             <span className='flex items-center gap-1'>
                                                 <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
-                                                {totalPrice}
+                                                {productTotal + serviceTotal + productRequestTotal}
+                                            </span>
+                                        }
+
+                                    </p>
+                                    {
+                                        orderDetails?.payments.map((item: PaymentType) => {
+                                            return (<p key={item.id} className='flex justify-between items-center font-semibold'>
+
+                                                <span >Paid on {`(${dateFormatter(item.updatedAt)})`}</span>
+
+
+                                                <span className='flex items-center gap-1'>
+                                                    <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
+                                                    {item.amount}
+                                                </span>
+
+
+                                            </p>)
+                                        })
+                                    }
+
+                                    <div className='border-t-2 my-2'></div>
+
+                                    <p className='flex justify-between items-center font-bold'>
+
+                                        <span >Due</span>
+
+                                        {(!allProductHasPrice || !allServiceHasPrice || !allProductRequestHasPrice) ?
+                                            <span className='text-muted-foreground'>Quote Required</span>
+                                            :
+                                            <span className='flex items-center gap-1'>
+                                                <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
+                                                {totalDue}
                                             </span>
                                         }
 
                                     </p>
 
+                                    {/* TODO: add payment info */}
+
                                     {
-                                        (!allProductHasPrice || services.length > 0 || productRequests.length) > 0 && <div className="mt-6 p-3 border rounded-md bg-yellow-50 text-yellow-800 text-sm">
+                                        (!allProductHasPrice || !allServiceHasPrice || !allProductRequestHasPrice) && <div className="mt-6 p-3 border rounded-md bg-yellow-50 text-yellow-800 text-sm">
                                             Some items require pricing approval
                                         </div>
                                     }
 
-                                    <Button
-                                        className='w-full mt-5'
-                                        type='submit'
-                                        form='order-address'
-                                        disabled={isPending}
-
-                                    >
-                                        {isPending ? "Confirming..." : "Confirm Order"}
-                                    </Button>
 
 
-                                    <div className="mt-6 p-3 border rounded-md text-muted-foreground text-sm">
-                                        Waiting for price quote.
-                                    </div>
+
+
 
                                 </div>
 

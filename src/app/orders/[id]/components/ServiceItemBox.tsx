@@ -34,19 +34,17 @@ const ServiceItemBox = ({ service, date }: { service: ServiceItemType, date: str
                 </p>
 
                 <div className='space-x-3'>
-                    {service.service.price
+                    {service.price
                         ?
                         <p className="text-md mt-4 flex items-center gap-1">
 
                             <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
 
-                            <span>{service.service.price}</span>
+                            <span>{service.price}</span>
                         </p>
                         :
                         <Badge variant="secondary">Quote Required</Badge>
                     }
-
-                    <Badge variant="outline">Requested: {dateFormatter(date)}</Badge>
                 </div>
 
 

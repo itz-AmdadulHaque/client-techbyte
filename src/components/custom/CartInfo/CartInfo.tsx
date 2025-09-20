@@ -9,9 +9,11 @@ const CartInfo = ({ className }: { className: string }) => {
 
     const { data: cartInfo, isLoading } = useCartInfo();
 
+    console.log("cartInfo", cartInfo);
+
     const totalItems =
         (cartInfo?.productItems?.length || 0) +
-        (cartInfo?.productRequestItems?.length || 0) +
+        (cartInfo?.productRequests?.length || 0) +
         (cartInfo?.serviceItems?.length || 0);
 
     return (

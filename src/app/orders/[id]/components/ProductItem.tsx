@@ -45,7 +45,7 @@ const ProductItemBox = ({ product }: { product: ProductOrderItemType }) => {
             </div>
             <div className="ml-auto">
 
-                {product.product.price
+                {product.price
                     ?
                     <div>
 
@@ -54,14 +54,14 @@ const ProductItemBox = ({ product }: { product: ProductOrderItemType }) => {
 
                             <Image src="/taka.png" alt="Taka symbol" width={12} height={12} />
 
-                            <span>{product.product.price}</span>
+                            <span>{product.price}</span>
                         </p>
 
                         <p className="text-xl font-semibold mt-4 flex items-center">
 
                             <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
 
-                            <span>{Number(product.product.price) * product.quantity}</span>
+                            <span>{Number(product.price) * product.quantity}</span>
                         </p>
                     </div>
                     :
