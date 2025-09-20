@@ -14,7 +14,7 @@ const ServiceDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
     console.log("Product Details:", data.data);
     return (
-         <div className="container mx-auto mb-16 p-4">
+        <div className="container mx-auto mb-16 p-4">
 
             <div className="grid grid-cols-1 lg:grid-cols-3 items-center gap-10 p-8">
 
@@ -24,14 +24,12 @@ const ServiceDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
                 <div className='lg:col-span-2 space-y-4 p-4'>
 
-                    <h1 className="text-3xl font-bold mb-4">{service.title}</h1>
+                    <h1 className="text-3xl font-bold ">{service.title}</h1>
+
+                    <h2 className='mt-3 mb-5'>Category: <span className='font-semibold'>{service.category.title}</span></h2>
 
 
-
-
-                    <ItemCounter />
-
-                    <AddToCart id={service.id} type="service" />
+                    <AddToCart id={service.id} type="service" count={1} />
 
                 </div>
 

@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Consultants | TechVibe Global",
+  title: "Services | TechVibe Global",
   description:
     "Protecting your business with comprehensive fire safety, infrastructure integrity, and IT security solutions from certified professionals.",
 };

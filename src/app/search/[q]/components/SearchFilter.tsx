@@ -240,10 +240,10 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
         "Brand",
         "brandId",
         brands.map((b) => (
-          <div key={b.id} className="flex items-center space-x-2">
+          <div key={b.slug} className="flex items-center space-x-2">
             <Checkbox
-              checked={filters.brandId.includes(b.id)}
-              onCheckedChange={() => handleCheckbox("brandId", b.id)}
+              checked={filters.brandId.includes(b.slug)}
+              onCheckedChange={() => handleCheckbox("brandId", b.slug)}
             />
             <label>{b.title}</label>
           </div>
@@ -254,10 +254,10 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
         "Category",
         "categoryId",
         categories.map((c: CategoryType) => (
-          <div key={c.id} className="flex items-center space-x-2">
+          <div key={c.slug} className="flex items-center space-x-2">
             <Checkbox
-              checked={filters.categoryId.includes(c.id)}
-              onCheckedChange={() => handleCheckbox("categoryId", c.id)}
+              checked={filters.categoryId.includes(c.slug)}
+              onCheckedChange={() => handleCheckbox("categoryId", c.slug)}
             />
             <label>{c.title}</label>
           </div>
@@ -269,14 +269,14 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
         "subCategoryId",
         categories
           .filter((c: CategoryType) =>
-            filters.categoryId.length ? filters.categoryId.includes(c.id) : true
+            filters.categoryId.length ? filters.categoryId.includes(c.slug) : true
           )
           .flatMap((c: CategoryType) =>
             c.subCategories.map((sub) => (
-              <div key={sub.id} className="flex items-center space-x-2">
+              <div key={sub.slug} className="flex items-center space-x-2">
                 <Checkbox
-                  checked={filters.subCategoryId.includes(sub.id)}
-                  onCheckedChange={() => handleCheckbox("subCategoryId", sub.id)}
+                  checked={filters.subCategoryId.includes(sub.slug)}
+                  onCheckedChange={() => handleCheckbox("subCategoryId", sub.slug)}
                 />
                 <label>{sub.title}</label>
               </div>

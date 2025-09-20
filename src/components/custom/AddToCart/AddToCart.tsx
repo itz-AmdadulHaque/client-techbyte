@@ -46,7 +46,7 @@ const AddToCart = ({
     }: {
         id: string;
         type: string;
-        count: number;
+        count?: number;
         description?: string;
     }) => {
         if (!auth.accessToken) {
@@ -67,7 +67,7 @@ const AddToCart = ({
         mutationKey: ["addToCart"],
         mutationFn: handleAddToCart,
         onSuccess: (data) => {
-            
+
             toast.success(data.message, { position: "top-center" });
             queryClient.setQueryData(["cartInfo"], () => data.data);
             successResponse?.();

@@ -40,15 +40,23 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
                     <h2 className='text-lg mb-3'><span className='text-xl font-semibold'>Model:</span> {product.modelNumber}</h2>
 
+                    <h2 className='my-3'>Category: <span className='font-semibold'>{product.category.title}</span></h2>
+
+                    <h2 className='mb-5'>Sub Category: <span className='font-semibold'>{product.subCategory.title}</span></h2>
+
 
                     {product.stock > 0 ? <p className='text-green-700 font-semibold text-lg'>In Stock</p> : <p className='text-red-700 font-semibold text-lg'>Out Of Stock</p>}
 
-                    <p className="text-2xl font-semibold mt-4 flex items-center gap-1">
-
-                        <Image src="/taka.png" alt="Taka symbol" width={20} height={20} />
-
-                        {product.price?.toFixed(2)}
-                    </p>
+                    {
+                        product.price ? <div className="text-muted-foreground flex items-center gap-2">
+                            <Image src="/taka.png" alt="Taka symbol" width={20} height={20} />
+                            <p className="text-md font-bold">{product.price}</p>
+                        </div>
+                            :
+                            <div className="text-muted-foreground flex items-center font-semibold gap-2">
+                                Price on Request
+                            </div>
+                    }
 
                     <HandleAddToCart id={product.id} />
 

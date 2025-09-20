@@ -40,6 +40,7 @@ export type ConsultantType = {
 export type SubCategory = {
   id: string;
   title: string;
+  slug: string;
   image: string;
   categoryId: number;
   category: CategoryType;
@@ -48,6 +49,7 @@ export type SubCategory = {
 export type CategoryType = {
   id: string;
   title: string;
+  slug: string;
   image: string;
   isDeleted: boolean;
   isActive: boolean;
@@ -75,6 +77,7 @@ export type BannerType = {
   image: string;
   link?: string;
   title: string;
+  slug: string;
   isActive: boolean;
   createdById: string;
   updatedById: string;
