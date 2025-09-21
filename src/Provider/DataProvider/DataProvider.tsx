@@ -13,7 +13,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchCategoriesData = async () => {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/with-subs`);
         const json = await res.json();
-
+        console.log(json);
         setCategories(json.data);
     };
     

@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Candal } from "next/font/google";
 import Footer from "@/components/custom/Footer/Footer";
+import { DataProvider } from "@/Provider/DataProvider/DataProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,18 +54,20 @@ export default function RootLayout({
           disableTransitionOnChange
         >
 
-          <AuthProvider>
-            <ReactQueryClientProvider>
+          <ReactQueryClientProvider>
+            <DataProvider>
+              <AuthProvider>
 
-              <main>
-                <Navbar />
-                {children}
-                <Footer />
-              </main>
-              <Toaster />
+                <main>
+                  <Navbar />
+                  {children}
+                  <Footer />
+                </main>
+                <Toaster />
 
-            </ReactQueryClientProvider>
-          </AuthProvider>
+              </AuthProvider>
+            </DataProvider>
+          </ReactQueryClientProvider>
 
         </ThemeProvider>
 

@@ -15,7 +15,7 @@ export default function SearchBar() {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    if (pathname.startsWith("/search/")) {
+    if (pathname.startsWith("/products/")) {
       setQuery(decodeURIComponent(pathname.split("/")[2]?.split("?")[0] || ""));
     } else {
       setQuery(""); // Clear when not on search page
@@ -24,7 +24,7 @@ export default function SearchBar() {
 
   const handleSearch = () => {
     if (query.trim()) {
-      router.push(`/search/${encodeURIComponent(query.trim())}`);
+      router.push(`/products?search=${encodeURIComponent(query.trim())}`);
     }
   };
 

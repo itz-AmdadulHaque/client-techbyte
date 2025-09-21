@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, ShoppingCart, ShoppingBag, Monitor, Smartphone, Laptop, Store, Tags, Wrench, Briefcase, Package, Package2 } from "lucide-react";
+import { Home, ShoppingCart, ShoppingBag, Monitor, Smartphone, Laptop, Store, Tags, Wrench, Briefcase, Package, Package2, Folder } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -15,81 +15,54 @@ import SearchBar from "./SearchBar";
 import ModeToggle from "@/components/theme/mode-toggler";
 import Image from "next/image";
 import CartInfo from "../CartInfo/CartInfo";
-import { Suspense } from "react";
+import { Suspense, useContext } from "react";
+import { DataContext } from "@/Provider/DataProvider/DataProvider";
 
-const navItems: NavItemType[] = [
-  {
-    label: "Home",
-    href: "/",
-    icon: <Home size={20} />
-  },
-  {
-    label: "Shop",
-    icon: <ShoppingBag size={20} />,
-    links: [
-      {
-        label: "Electronics",
-        href: "/electronics",
-        icon: <Monitor size={20} />
-      },
-      {
-        label: "Smartphones",
-        href: "/smartphones",
-        icon: <Smartphone size={20} />
-      },
-      {
-        label: "Laptops",
-        href: "/laptops",
-        icon: <Laptop size={20} />
-      },
-      {
-        label: "Home Appliances",
-        href: "/home-appliances",
-        icon: <Store size={20} />
-      },
-    ]
-  },
-  {
-    label: "Services",
-    href: "/services",
-    icon: <Wrench size={20} />
-  },
-  {
-    label: "Consultants",
-    href: "/consultants",
-    icon: <Briefcase size={20} />,
-  },
-  {
-    label: "Request Product",
-    href: "/request-product",
-    icon: <Package2 size={20} />,
-  },
-];
+
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { auth, setAuth } = useAuth();
-  const axiosPrivate = useAxiosPrivate();
+  const { auth } = useAuth();
 
+  const { categories } = useContext(DataContext)
 
-
-  const { data } = useQuery({
-    queryKey: ["clientInfo"],
-    queryFn: async () => {
-
-
-      const res = await axiosPrivate.get("/customer");
-      setAuth((prev) => {
-        return {
-          ...prev,
-          user: res.data.data,
-          isLoading: false,
-        };
-      });
-      return res.data;
+  const navItems: NavItemType[] = [
+    {
+      label: "Home",
+      href: "/",
+      icon: <Home size={20} />,
     },
-    enabled: !auth.user,
-  });
+    {
+      label: "Shop",
+      icon: <ShoppingBag size={20} />,
+      links: categories?.map((cat) => ({
+        label: cat.title,
+        href: `/category/${cat.slug}`,
+        icon: <Folder size={20} />,
+        links: cat.subCategories?.map((sub) => ({
+          label: sub.title,
+          href: `/category/sub-category/${cat.slug}/${sub.slug}`,
+          icon: <Folder size={16} />,
+        })),
+      })),
+    },
+    {
+      label: "Services",
+      href: "/services",
+      icon: <Wrench size={20} />,
+    },
+    {
+      label: "Consultants",
+      href: "/consultants",
+      icon: <Briefcase size={20} />,
+    },
+    {
+      label: "Request Product",
+      href: "/request-product",
+      icon: <Package2 size={20} />,
+    },
+  ];
+
 
   return (
     <>
@@ -117,10 +90,13 @@ export default function Navbar() {
 
             {navItems.map((item) => (
               <li key={item.href || item.label}>
-                {item.links ? (
+                {item.links
+                  ?
                   <NavigationMenu key={item.label}>
                     <NavigationMenuItem>
+
                       <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
+                      
                       <NavigationMenuContent>
                         <ul className="grid w-[200px] gap-2 p-2">
                           {item.links.map((subItem) => (
@@ -140,18 +116,20 @@ export default function Navbar() {
                       </NavigationMenuContent>
                     </NavigationMenuItem>
                   </NavigationMenu>
-                ) : (
-                  <Link
-                    key={item.label}
-                    href={item.href!}
-                    className={clsx(
-                      "text-sm font-medium hover:text-blue-600",
-                      pathname === item.href && "text-blue-600 font-semibold"
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                )}
+
+                  :
+                  (
+                    <Link
+                      key={item.label}
+                      href={item.href!}
+                      className={clsx(
+                        "text-sm font-medium hover:text-blue-600",
+                        pathname === item.href && "text-blue-600 font-semibold"
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  )}
               </li>
             ))}
 

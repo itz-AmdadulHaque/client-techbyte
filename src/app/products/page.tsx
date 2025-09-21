@@ -1,6 +1,5 @@
 
 import SearchFilters from "./components/SearchFilter"
-import { DataProvider } from "@/Provider/DataProvider/DataProvider"
 import { Product } from "@/Types/Types"
 import { fetchData } from "@/lib/fetchFunction"
 import CustomPagination from "@/components/custom/Pagination/Pagination"
@@ -8,11 +7,11 @@ import ProductCard from "@/components/custom/ProductCard/ProductCard"
 
 
 interface SearchPageProps {
-  params: Promise<{ q: string }>
   searchParams: Promise<{
-    brandId?: string
-    categoryId?: string
-    subCategoryId?: string
+    search?:string;
+    brand?: string
+    category?: string
+    subCategory?: string
     minPrice?: string
     maxPrice?: string
     page?: string
@@ -20,34 +19,35 @@ interface SearchPageProps {
   }>
 }
 
-export default async function SearchPage({ params, searchParams }: SearchPageProps) {
+export default async function SearchPage({ searchParams }: SearchPageProps) {
 
 
 
 
   const filters = {
-    name: decodeURIComponent((await params).q),
-    brandId: (await searchParams).brandId?.split(",") || [],
-    categoryId: (await searchParams).categoryId?.split(",") || [],
-    subCategoryId: (await searchParams).subCategoryId?.split(",") || [],
-    minPrice: Number((await searchParams).minPrice || 0),
-    maxPrice: Number((await searchParams).maxPrice || 1000000),
+    name: (await searchParams).search || '',
+    brand: (await searchParams).brand?.split(",") || [],
+    category: (await searchParams).category?.split(",") || [],
+    subCategory: (await searchParams).subCategory?.split(",") || [],
+    minPrice: Number((await searchParams).minPrice || null),
+    maxPrice: Number((await searchParams).maxPrice || null),
   }
 
   const page = Number((await searchParams).page || 1)
   const limit = Number((await searchParams).limit || 20)
 
   const query = new URLSearchParams({
-    search: (await params).q,
-    ...(filters.brandId.length > 0 ? { brandId: filters.brandId.join(",") } : {}),
-    ...(filters.categoryId.length > 0 ? { categoryId: filters.categoryId.join(",") } : {}),
-    ...(filters.subCategoryId.length > 0 ? { subCategoryId: filters.subCategoryId.join(",") } : {}),
+    ...(filters.name.length > 0 ? { search: filters.name } : {}),
+    ...(filters.brand.length > 0 ? { brand: filters.brand.join(",") } : {}),
+    ...(filters.category.length > 0 ? { category: filters.category.join(",") } : {}),
+    ...(filters.subCategory.length > 0 ? { subCategory: filters.subCategory.join(",") } : {}),
     minPrice: String(filters.minPrice),
     maxPrice: String(filters.maxPrice),
     ...(page > 1 ? { page: String(page) } : {}), // don't include if page is 1
     limit: String(limit), // don't include if limit is default
   }).toString()
 
+  console.log(query);
 
   const data = await fetchData(`/products?${query}`)
 
@@ -60,9 +60,9 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
       <div className="hidden lg:block lg:col-span-1">
-        <DataProvider>
+        
           <SearchFilters initialFilters={filters} />
-        </DataProvider>
+        
       </div>
       <div className="lg:col-span-3 ">
 

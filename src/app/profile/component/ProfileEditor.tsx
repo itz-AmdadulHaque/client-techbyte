@@ -37,11 +37,10 @@ const ProfileEditor = () => {
             // Handle successful login, e.g., redirect or show success message
 
 
-            setAuth({
-                accessToken: data.data.accessToken,
-                user: data.data.user,
-                isLoading: false,
-            })
+            setAuth((prev) => ({
+                ...prev,
+                user: data.data,
+            }));
 
             // router.push("/")
 

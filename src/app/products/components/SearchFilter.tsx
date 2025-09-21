@@ -14,9 +14,9 @@ import { CategoryType } from "@/Types/Types"
 
 interface Filters {
   name: string;
-  brandId: string[];
-  categoryId: string[];
-  subCategoryId: string[];
+  brand: string[];
+  category: string[];
+  subCategory: string[];
   minPrice: number;
   maxPrice: number;
 
@@ -39,9 +39,9 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
   ])
 
   const [open, setOpen] = useState({
-    brandId: true,
-    categoryId: true,
-    subCategoryId: true,
+    brand: true,
+    category: true,
+    subCategory: true,
     price: true,
   })
 
@@ -50,7 +50,7 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
   }
 
   // FOR MULTIPLE SECTION CHECKBOXES
-  // const handleCheckbox = (type: "brandId" | "category" | "subcategory", value: string) => {
+  // const handleCheckbox = (type: "brand" | "category" | "subcategory", value: string) => {
   //   const exists = filters[type].includes(value)
   //   updateField(
   //     type,
@@ -60,42 +60,51 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
 
 
   const handleCheckbox = (
-    type: "brandId" | "categoryId" | "subCategoryId",
+    type: "brand" | "category" | "subCategory",
     value: string
   ) => {
-    // If clicking the already selected value → clear it
     if (filters[type].includes(value)) {
       updateField(type, [])
+
+      if (type === "category") {
+        updateField("subCategory", [])
+      }
     } else {
-      // Replace with only the clicked value (single select)
       updateField(type, [value])
+
+      if (type === "category") {
+        
+        updateField("subCategory", [])
+      }
     }
   }
+
 
   const applyFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
     // Set only if non-empty
-    if (filters.brandId.length && filters.brandId[0] !== "") {
-      params.set("brandId", filters.brandId.join(","))
+    if (filters.brand.length && filters.brand[0] !== "") {
+      params.set("brand", filters.brand.join(","))
     } else {
-      params.delete("brandId")
+      params.delete("brand")
     }
 
-    if (filters.categoryId.length && filters.categoryId[0] !== "") {
-      params.set("categoryId", filters.categoryId.join(","))
+    if (filters.category.length && filters.category[0] !== "") {
+      params.set("category", filters.category.join(","))
+      params.delete("subCategory")
     } else {
-      params.delete("categoryId")
+      params.delete("category")
     }
 
-    if (filters.subCategoryId.length && filters.subCategoryId[0] !== "") {
-      params.set("subCategoryId", filters.subCategoryId.join(","))
+    if (filters.subCategory.length && filters.subCategory[0] !== "") {
+      params.set("subCategory", filters.subCategory.join(","))
     } else {
-      params.delete("subCategoryId")
+      params.delete("subCategory")
     }
 
-  
-    
+
+
 
     // Always reset page to 1 when filters change
     params.delete("page")
@@ -105,9 +114,9 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
 
   // const applyFilters = () => {
   //   const params = new URLSearchParams()
-  //   if (filters.brandId.length) params.set("brandId", filters.brandId.join(","))
-  //   if (filters.categoryId.length) params.set("categoryId", filters.categoryId.join(","))
-  //   if (filters.subCategoryId.length) params.set("subCategoryId", filters.subCategoryId.join(","))
+  //   if (filters.brand.length) params.set("brand", filters.brand.join(","))
+  //   if (filters.category.length) params.set("category", filters.category.join(","))
+  //   if (filters.subCategory.length) params.set("subCategory", filters.subCategory.join(","))
   //   // skip price range here
 
 
@@ -120,22 +129,22 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
     params.set("minPrice", String(priceRange[0]))
     params.set("maxPrice", String(priceRange[1]))
 
-    if (filters.brandId.length) {
-      params.set("brandId", filters.brandId.join(","))
+    if (filters.brand.length) {
+      params.set("brand", filters.brand.join(","))
     } else {
-      params.delete("brandId")
+      params.delete("brand")
     }
 
-    if (filters.categoryId.length) {
-      params.set("categoryId", filters.categoryId.join(","))
+    if (filters.category.length) {
+      params.set("category", filters.category.join(","))
     } else {
-      params.delete("categoryId")
+      params.delete("category")
     }
 
-    if (filters.subCategoryId.length) {
-      params.set("subCategoryId", filters.subCategoryId.join(","))
+    if (filters.subCategory.length) {
+      params.set("subCategory", filters.subCategory.join(","))
     } else {
-      params.delete("subCategoryId")
+      params.delete("subCategory")
     }
 
     if (!params.get("limit")) params.set("limit", "20")
@@ -148,9 +157,9 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
   const clearPriceFilter = () => {
     const params = new URLSearchParams()
 
-    if (filters.brandId.length) params.set("brandId", filters.brandId.join(","))
-    if (filters.categoryId.length) params.set("categoryId", filters.categoryId.join(","))
-    if (filters.subCategoryId.length) params.set("subCategoryId", filters.subCategoryId.join(","))
+    if (filters.brand.length) params.set("brand", filters.brand.join(","))
+    if (filters.category.length) params.set("category", filters.category.join(","))
+    if (filters.subCategory.length) params.set("subCategory", filters.subCategory.join(","))
     if (!params.get("limit")) params.set("limit", "20")
     params.delete("page")
 
@@ -162,9 +171,9 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
   const clearFilters = () => {
     setFilters({
       name: filters.name,
-      brandId: [],
-      categoryId: [],
-      subCategoryId: [],
+      brand: [],
+      category: [],
+      subCategory: [],
       minPrice: 0,
       maxPrice: 1000000,
 
@@ -238,12 +247,12 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
       {/* brand */}
       {renderCollapsible(
         "Brand",
-        "brandId",
+        "brand",
         brands.map((b) => (
           <div key={b.slug} className="flex items-center space-x-2">
             <Checkbox
-              checked={filters.brandId.includes(b.slug)}
-              onCheckedChange={() => handleCheckbox("brandId", b.slug)}
+              checked={filters.brand.includes(b.slug)}
+              onCheckedChange={() => handleCheckbox("brand", b.slug)}
             />
             <label>{b.title}</label>
           </div>
@@ -252,12 +261,12 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
 
       {renderCollapsible(
         "Category",
-        "categoryId",
+        "category",
         categories.map((c: CategoryType) => (
           <div key={c.slug} className="flex items-center space-x-2">
             <Checkbox
-              checked={filters.categoryId.includes(c.slug)}
-              onCheckedChange={() => handleCheckbox("categoryId", c.slug)}
+              checked={filters.category.includes(c.slug)}
+              onCheckedChange={() => handleCheckbox("category", c.slug)}
             />
             <label>{c.title}</label>
           </div>
@@ -266,17 +275,17 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
 
       {renderCollapsible(
         "Subcategory",
-        "subCategoryId",
+        "subCategory",
         categories
           .filter((c: CategoryType) =>
-            filters.categoryId.length ? filters.categoryId.includes(c.slug) : true
+            filters.category.length ? filters.category.includes(c.slug) : true
           )
           .flatMap((c: CategoryType) =>
             c.subCategories.map((sub) => (
               <div key={sub.slug} className="flex items-center space-x-2">
                 <Checkbox
-                  checked={filters.subCategoryId.includes(sub.slug)}
-                  onCheckedChange={() => handleCheckbox("subCategoryId", sub.slug)}
+                  checked={filters.subCategory.includes(sub.slug)}
+                  onCheckedChange={() => handleCheckbox("subCategory", sub.slug)}
                 />
                 <label>{sub.title}</label>
               </div>
