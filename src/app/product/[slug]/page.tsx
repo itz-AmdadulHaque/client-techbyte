@@ -15,7 +15,6 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
     const product: Product = data.data;
 
-    console.log("Product Details:", data.data);
 
     return (
         <div className="container mx-auto mb-16 p-4">
@@ -58,7 +57,7 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
                             </div>
                     }
 
-                    <HandleAddToCart id={product.id} />
+                    <HandleAddToCart id={product.id} slug={product.slug} />
 
                 </div>
 

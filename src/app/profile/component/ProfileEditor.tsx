@@ -27,7 +27,7 @@ const ProfileEditor = () => {
 
     const updateUser = async (data: ProfileSchema) => {
         const res = await axiosPrivate.patch("/customer", data)
-        console.log(res);
+
         return res.data;
     };
 

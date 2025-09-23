@@ -47,7 +47,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                     <Link href={`/product/${product.slug}`}>
                         <Button >VIEW</Button>
                     </Link>
-                    <AddToCart variant="outline" id={product.id} type='product' count={1} />
+                    <AddToCart variant="outline" id={product.id} type='product' count={1} slug={product.slug} />
                 </div>
             </CardContent>
         </Card>

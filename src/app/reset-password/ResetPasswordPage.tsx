@@ -63,7 +63,7 @@ const ResetPasswordForm = () => {
 
 
         const res = await axiosPrivate.post("/auth/new-password", passResetValues);
-        console.log(res);
+     
 
         return res.data;
     }

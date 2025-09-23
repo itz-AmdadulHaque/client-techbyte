@@ -4,7 +4,7 @@ import AddToCart from '@/components/custom/AddToCart/AddToCart'
 import ItemCounter from '@/components/custom/ItemCounter/ItemCounter'
 import React, { useState } from 'react'
 
-const HandleAddToCart = ({ id }: { id: string }) => {
+const HandleAddToCart = ({ id, slug }: { id: string, slug: string }) => {
 
     const [count, setCount] = useState(1);
 
@@ -15,8 +15,8 @@ const HandleAddToCart = ({ id }: { id: string }) => {
             <ItemCounter initialValue={count} onChange={setCount} />
 
             <AddToCart id={id} type="product" count={count} successResponse={() => {
-                console.log("adding");
-                setCount(1)}} />
+                setCount(1)
+            }} slug={slug} />
         </div>
     )
 }

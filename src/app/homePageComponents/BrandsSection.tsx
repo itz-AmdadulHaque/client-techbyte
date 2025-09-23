@@ -10,7 +10,7 @@ const BrandsSection = async () => {
     const data = await fetchData("/brands")
     const brands = data.data;
 
-    console.log(data.data);
+   
     return (
         <div className='mt-16 mb-8 pb-10'>
 

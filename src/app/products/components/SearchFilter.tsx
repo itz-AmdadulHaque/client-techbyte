@@ -165,7 +165,7 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
 
     setPriceRange([0, 1000000])
 
-    router.push(`/search/${encodeURIComponent(filters.name)}?${params.toString()}`)
+    router.push(`/products?search=${encodeURIComponent(filters.name)}&${params.toString()}`)
   }
 
   const clearFilters = () => {
@@ -179,7 +179,7 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
 
     })
     setPriceRange([0, 1000000])
-    router.push(`/search/${encodeURIComponent(filters.name)}`)
+    router.push(`/products?search=${encodeURIComponent(filters.name)}`)
   }
 
   const renderCollapsible = (title: string, field: keyof typeof open, children: React.ReactNode) => (

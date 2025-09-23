@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import React, { useState } from "react";
 import { CloudDownload } from "lucide-react";
+import { LoadingOverlay } from "../LoadingOverlay/LoadingOverlay";
 
 const AddToCart = ({
     variant,
@@ -18,6 +19,7 @@ const AddToCart = ({
     type,
     count,
     successResponse,
+    slug
 }: {
     variant?:
     | "link"
@@ -30,6 +32,7 @@ const AddToCart = ({
     type: string;
     count: number;
     successResponse?: () => void;
+    slug: string;
 }) => {
     const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
@@ -50,7 +53,7 @@ const AddToCart = ({
         description?: string;
     }) => {
         if (!auth.accessToken) {
-            router.push(`/login?type=${type}&slug=${id}`);
+            router.push(`/login?type=${type}&slug=${slug}`);
             throw new Error("Please login to continue");
         }
 
@@ -119,6 +122,8 @@ const AddToCart = ({
             disabled={isPending}
         >
             {isPending ? "ADDING..." : "ADD TO CART"}
+
+            <LoadingOverlay blur visible={isPending} />
         </Button>
     );
 };

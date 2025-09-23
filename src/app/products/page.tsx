@@ -47,11 +47,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     limit: String(limit), // don't include if limit is default
   }).toString()
 
-  console.log(query);
-
   const data = await fetchData(`/products?${query}`)
 
-  console.log(data.data);
   const products = data.data.products || [];
 
 
@@ -67,7 +64,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       <div className="lg:col-span-3 ">
 
         <div className="font-bold bg-gray-200 dark:bg-gray-800 p-6 my-4 rounded-md">
-          Found Products & Services
+          Found Products
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

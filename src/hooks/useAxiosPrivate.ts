@@ -18,7 +18,6 @@ const useAxiosPrivate = () => {
                 if (!config.headers["Authorization"]) {
                     config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
                 }
-                // console.log("no access token")
                 return config;
             },
             (error) => Promise.reject(error)
@@ -33,10 +32,8 @@ const useAxiosPrivate = () => {
                     prevRequest.sent = true; // adding 'sent' property
 
                     try {
-                        // console.log("request for access token")
                     const newAccessToken = await refresh();
 
-                    // console.log("new Access token: ", newAccessToken)
 
                     prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
                     setAuth(prev => {
@@ -48,7 +45,6 @@ const useAxiosPrivate = () => {
 
                     return axiosPrivate(prevRequest);
                     } catch (refreshError) {
-                        console.log("refreshError:", refreshError)
                         logOut()
                         return Promise.reject(refreshError);
                     }

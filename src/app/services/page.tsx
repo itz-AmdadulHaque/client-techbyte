@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { ServiceList } from "./components/ServicesList";
-import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { LoadingOverlay } from "@/components/custom/LoadingOverlay/LoadingOverlay";
 
 export const metadata: Metadata = {
   title: "Services | TechVibe Global",
@@ -23,7 +22,7 @@ export default async function ServicePage({
 
   const resolvedSearchParams = await searchParams;
   return (
-    <Suspense fallback={<Loader2 className={cn("h-5 w-5 animate-spin text-muted-foreground", "mr-2 h-24 w-24 animate-spin")} />}>
+    <Suspense fallback={<LoadingOverlay visible blur />}>
       <ServiceList searchParams={resolvedSearchParams} />
     </Suspense>
   );

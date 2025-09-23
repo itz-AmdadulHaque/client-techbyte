@@ -2,8 +2,7 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { ConsultantList } from "./components/ConsultantsList";
-import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { LoadingOverlay } from "@/components/custom/LoadingOverlay/LoadingOverlay";
 
 export const metadata: Metadata = {
   title: "Consultants | TechVibe Global",
@@ -25,7 +24,7 @@ export default async function ConsultantsPage({
   const resolvedSearchParams = await searchParams;
 
   return (
-    <Suspense fallback={<Loader2 className={cn("h-5 w-5 animate-spin text-muted-foreground", "mr-2 h-24 w-24 animate-spin")} />}>
+    <Suspense fallback={<LoadingOverlay visible blur />}>
       <ConsultantList searchParams={resolvedSearchParams} />
     </Suspense>
   );

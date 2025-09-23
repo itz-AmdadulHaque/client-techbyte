@@ -39,7 +39,6 @@ export async function ServiceList({
         return text.length > length ? text.slice(0, length) + "..." : text;
     }
 
-    console.log(services);
 
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-6">
@@ -77,7 +76,7 @@ export async function ServiceList({
                                     <Link href={`/services/${service.slug}`}>Show Details</Link>
                                 </Button>
 
-                                <AddToCart id={service.id} type="service" variant="outline" count={1}/>
+                                <AddToCart id={service.id} slug={service.slug} type="service" variant="outline" count={1}/>
                             </div>
                         </CardContent>
                     </Card>

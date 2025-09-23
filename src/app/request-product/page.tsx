@@ -110,7 +110,6 @@ export default function ProductRequestForm() {
   const addCartMutation = useMutation({
     mutationFn: (data: z.infer<typeof formSchema>) => onSubmit(data, 'add-to-cart'),
     onSuccess: (data) => {
-      console.log(data);
       toast.success(data.data.message, { position: 'top-center' })
       form.reset();
       queryClient.invalidateQueries({ queryKey: ["cartInfo"] });

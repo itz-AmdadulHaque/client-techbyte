@@ -12,7 +12,6 @@ const ServiceDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
     const service: ServiceType = data.data;
 
-    console.log("Product Details:", data.data);
     return (
         <div className="container mx-auto mb-16 p-4">
 
@@ -29,7 +28,7 @@ const ServiceDetails = async ({ params }: { params: Promise<{ slug: string }> })
                     <h2 className='mt-3 mb-5'>Category: <span className='font-semibold'>{service.category.title}</span></h2>
 
 
-                    <AddToCart id={service.id} type="service" count={1} />
+                    <AddToCart id={service.id} type="service" count={1} slug={service.slug} />
 
                 </div>
 

@@ -5,7 +5,6 @@ import React from 'react'
 
 const MostSelling = ({ trendingProducts }: { trendingProducts: Product[] }) => {
 
-    console.log("latestProducts", trendingProducts);
     return (
         <div className='mt-16 mb-8 pb-10'>
 

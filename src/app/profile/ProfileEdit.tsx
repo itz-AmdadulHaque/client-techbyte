@@ -1,11 +1,8 @@
 "use client";
 
 import AuthCheck from "@/components/custom/AuthCheck";
-import { Avatar } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useAuth from "@/hooks/useAuth";
-import { User } from "lucide-react";
-import Image from "next/image";
 import React from "react";
 import ProfileEditor from "./component/ProfileEditor";
 import AddressEditor from "./component/AddressEditor";
@@ -68,8 +65,6 @@ function ProfileComponent() {
               <TabsTrigger value="password">Password</TabsTrigger>
 
               <TabsTrigger value="orders">Orders</TabsTrigger>
-
-              <TabsTrigger value="requests">Requests</TabsTrigger>
             </TabsList>
 
             <TabsContent value="profile">
@@ -88,10 +83,6 @@ function ProfileComponent() {
               <OrdersList searchParams={{ page, limit, status, search }} />
             </TabsContent>
 
-
-            <TabsContent value="requests">
-              hello
-            </TabsContent>
           </Tabs>
 
         </div>

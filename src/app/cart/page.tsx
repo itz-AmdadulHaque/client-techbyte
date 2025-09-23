@@ -21,6 +21,7 @@ import { queryClient } from '@/Provider/ReactQueryClientProvider';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter } from 'next/navigation';
 import ProductRequestItemBox from './components/ProductRequestItemBox';
+import { LoadingOverlay } from '@/components/custom/LoadingOverlay/LoadingOverlay';
 
 const Cart = () => {
   const { data: cartInfo } = useCartInfo();
@@ -36,7 +37,7 @@ const Cart = () => {
   const axiosPrivate = useAxiosPrivate();
   const router = useRouter();
 
-  const { auth } = useAuth();
+  const { auth, isLoading } = useAuth();
 
   const form = useForm<OrderInfoSchema>({
     resolver: zodResolver(orderInfoSchema),
@@ -49,7 +50,7 @@ const Cart = () => {
   });
 
   const submitOrder = async (data: OrderInfoSchema) => {
-    console.log(data);
+  
     const res = await axiosPrivate.post(`/orders`, data);
     return res;
   }
@@ -89,6 +90,11 @@ const Cart = () => {
 
   return (
     <div className='container mx-auto min-h-screen'>
+
+      {isLoading}
+
+      <LoadingOverlay visible={isPending} blur />
+      
       <div>
         <h1 className='text-2xl font-bold p-6'>Shopping Cart</h1>
       </div>

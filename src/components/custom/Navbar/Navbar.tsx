@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, ShoppingCart, ShoppingBag, Monitor, Smartphone, Laptop, Store, Tags, Wrench, Briefcase, Package, Package2, Folder } from "lucide-react";
+import { Home,  ShoppingBag,  Wrench, Briefcase, Package2, Folder, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -22,9 +22,10 @@ import { DataContext } from "@/Provider/DataProvider/DataProvider";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const { categories } = useContext(DataContext)
+  const axiosPrivate = useAxiosPrivate();
 
   const navItems: NavItemType[] = [
     {
@@ -37,7 +38,7 @@ export default function Navbar() {
       icon: <ShoppingBag size={20} />,
       links: categories?.map((cat) => ({
         label: cat.title,
-        href: `/category/${cat.slug}`,
+        href: `/products?category=${cat.slug}`,
         icon: <Folder size={20} />,
         links: cat.subCategories?.map((sub) => ({
           label: sub.title,
@@ -63,6 +64,34 @@ export default function Navbar() {
     },
   ];
 
+  const bottomNavItems: NavItemType[] = [
+    {
+      label: "Home",
+      href: "/",
+      icon: <Home size={20} />,
+    },
+    {
+      label: "Request Product",
+      href: "/request-product",
+      icon: <Package2 size={20} />,
+    },
+  ];
+
+
+  const {  } = useQuery({
+    queryKey: ["clientInfo"],
+    queryFn: async () => {
+      const res = await axiosPrivate.get("/customer"); 
+      setAuth((prev) => ({
+        ...prev,
+        user: res.data.data,
+        isLoading: false,
+      }));
+      return res.data;
+    },
+    enabled: !auth.user,
+    refetchOnMount: false
+  });
 
   return (
     <>
@@ -96,7 +125,7 @@ export default function Navbar() {
                     <NavigationMenuItem>
 
                       <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
-                      
+
                       <NavigationMenuContent>
                         <ul className="grid w-[200px] gap-2 p-2">
                           {item.links.map((subItem) => (
@@ -108,6 +137,7 @@ export default function Navbar() {
                                 >
                                   {/* {subItem.icon && <subItem.icon className="h-4 w-4" />} */}
                                   {subItem.label}
+
                                 </Link>
                               </NavigationMenuLink>
                             </li>
@@ -175,7 +205,7 @@ export default function Navbar() {
       {/* Mobile Bottom Navbar */}
       < nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] border-t z-50" >
         <ul className="flex justify-around items-center py-2">
-          {navItems.map((item) => (
+          {bottomNavItems.map((item) => (
             <li key={item.label}>
               <Link
                 href={item.href || "#"}
@@ -189,6 +219,31 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+
+          <li className={clsx(
+            "flex flex-col items-center text-xs",
+            pathname === "/cart" ? "text-blue-600" : "text-gray-500"
+          )}>
+            <CartInfo className="" />
+            Cart
+          </li>
+
+          {auth?.user && <li>
+            <Link
+              href="/profile"
+              className={clsx(
+                "flex flex-col items-center text-xs",
+                pathname === "/profile" ? "text-blue-600" : "text-gray-500"
+              )}
+            >
+              <User />
+              Account
+            </Link>
+          </li>}
+
+          <li>
+
+          </li>
         </ul>
       </nav >
 

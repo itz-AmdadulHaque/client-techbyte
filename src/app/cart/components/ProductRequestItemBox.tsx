@@ -14,7 +14,6 @@ const ProductRequestItemBox = ({ product }: { product: ProductRequestCartItemTyp
     const [count, setCount] = useState(product.quantity);
     const axiosPrivate = useAxiosPrivate();
 
-    console.log(product);
 
 
     const updateCart = async (updateType: string) => {

@@ -5,7 +5,6 @@ import React from 'react'
 
 const NewArrival = ({ latestProducts }: { latestProducts: Product[] }) => {
 
-    console.log("latestProducts", latestProducts);
     return (
         <div className='mt-16 mb-8 pb-10'>
 

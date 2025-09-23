@@ -26,7 +26,6 @@ const OrdersList = ({
     const getOrders = async () => {
         const res = await axiosPrivate.get("/orders/");
 
-        console.log(res.data.data);
         return res.data.data;
     }
 
@@ -35,6 +34,15 @@ const OrdersList = ({
         queryFn: getOrders,
 
     });
+
+    const statusColors: Record<string, string> = {
+        PENDING: "bg-yellow-500/15 text-yellow-600 border-yellow-500/20",
+        IN_PROGRESS: "bg-blue-500/15 text-blue-600 border-blue-500/20",
+        PARTIALLY_DONE: "bg-purple-500/15 text-purple-600 border-purple-500/20",
+        COMPLETED: "bg-green-500/15 text-green-600 border-green-500/20",
+        CANCELLED: "bg-gray-500/15 text-gray-600 border-gray-500/20",
+        REJECTED: "bg-red-500/15 text-red-600 border-red-500/20",
+    }
     return (
         <div>
 
@@ -53,7 +61,7 @@ const OrdersList = ({
                             >
 
                                 <div className='flex flex-wrap justify-between pb-3 border-b-2 mb-3 '>
-                                    <Badge variant="warning">Pending</Badge>
+                                    <Badge className={statusColors[order.status]}>{order.status}</Badge>
 
                                     <span className='font-semibold'>ID: {order.id}</span>
                                 </div>
