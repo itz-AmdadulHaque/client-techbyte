@@ -6,6 +6,7 @@ import { Product } from '@/Types/Types';
 import Image from 'next/image';
 import React from 'react'
 import HandleAddToCart from '../HandleAddToCart';
+import ProductPrice from '@/components/custom/ProductPrice/ProductPrice';
 
 const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
@@ -14,6 +15,8 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
     const data = await fetchData(`/products/${(await params).slug}`)
 
     const product: Product = data.data;
+
+    console.log(product);
 
 
     return (
@@ -46,16 +49,7 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
                     {product.stock > 0 ? <p className='text-green-700 font-semibold text-lg'>In Stock</p> : <p className='text-red-700 font-semibold text-lg'>Out Of Stock</p>}
 
-                    {
-                        product.price ? <div className="text-muted-foreground flex items-center gap-2">
-                            <Image src="/taka.png" alt="Taka symbol" width={20} height={20} />
-                            <p className="text-md font-bold">{product.price}</p>
-                        </div>
-                            :
-                            <div className="text-muted-foreground flex items-center font-semibold gap-2">
-                                Price on Request
-                            </div>
-                    }
+                    <ProductPrice product={product} />
 
                     <HandleAddToCart id={product.id} slug={product.slug} />
 

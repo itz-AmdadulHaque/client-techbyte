@@ -102,6 +102,8 @@ export type Product = {
   modelNumber: string;
   brand: CategoryType;
   images: ProductImageType[];
+  discount: number;
+  expiresAt: string
 };
 
 export type ServiceType = {

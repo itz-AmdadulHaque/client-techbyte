@@ -10,7 +10,7 @@ const BrandsSection = async () => {
     const data = await fetchData("/brands")
     const brands = data.data;
 
-   
+
     return (
         <div className='mt-16 mb-8 pb-10'>
 
@@ -21,10 +21,10 @@ const BrandsSection = async () => {
 
                     <CardContent className="h-full flex flex-col ">
                         <Link
-                            href={`/brand/${brand.id}`}
-                            className="flex flex-col flex-grow justify-between text-center"
+                            href={`/products?search=&brand=${brand.slug}`}
+
                         >
-                            <div>
+                            <div className="flex flex-col flex-grow justify-between text-center">
                                 <Image
                                     src={
                                         brand.image
@@ -32,9 +32,9 @@ const BrandsSection = async () => {
                                             : "/altImage.jpg"
                                     }
                                     alt={brand.title}
-                                    width={400}
+                                    width={160}
                                     height={160}
-                                    className="min-h-40 rounded-md object-contain"
+                                    className="h-40 rounded-md object-contain"
                                 />
 
                                 <h2 className="mt-2 font-semibold ">{brand.title}</h2>

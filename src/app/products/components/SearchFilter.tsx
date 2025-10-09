@@ -169,16 +169,14 @@ export default function SearchFilters({ initialFilters }: { initialFilters: Filt
   }
 
   const clearFilters = () => {
-    setFilters({
-      name: filters.name,
-      brand: [],
-      category: [],
-      subCategory: [],
-      minPrice: 0,
-      maxPrice: 1000000,
 
-    })
-    setPriceRange([0, 1000000])
+    const params = new URLSearchParams(searchParams.toString())
+    
+    params.delete('brand');
+    params.delete('category');
+    params.delete('subCategory');
+    
+    // setPriceRange([0, 1000000])
     router.push(`/products?search=${encodeURIComponent(filters.name)}`)
   }
 

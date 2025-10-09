@@ -38,7 +38,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   const query = new URLSearchParams({
     ...(filters.name.length > 0 ? { search: filters.name } : {}),
-    ...(filters.brand.length > 0 ? { brand: filters.brand.join(",") } : {}),
+    ...(filters.brand.length > 0 ? { brands: filters.brand.join(",") } : {}),
     ...(filters.category.length > 0 ? { category: filters.category.join(",") } : {}),
     ...(filters.subCategory.length > 0 ? { subCategory: filters.subCategory.join(",") } : {}),
     minPrice: String(filters.minPrice),

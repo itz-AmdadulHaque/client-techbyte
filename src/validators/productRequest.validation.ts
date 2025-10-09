@@ -2,26 +2,35 @@ import { z } from "zod";
 import { phoneNumberSchema } from "./common.validation";
 
 export const productRequestSchema = z.object({
-    productName: z.string().min(3, "Product name is required"),
-    quantity: z.coerce.number().min(1, "Quantity must be at least 1"),
-    mobileNumber: phoneNumberSchema,
-    address: z.string().min(5, "Delivery address is required"),
-    details: z.string().optional(),
-    file: z
-        .any()
-        .refine(
-            (file) => !file || (file instanceof FileList && file.length <= 1),
-            "You can upload only 1 file"
-        )
-        .refine(
-            (file) =>
-                !file ||
-                (file instanceof FileList &&
-                    file.length === 1 &&
-                    ["application/pdf", "image/png", "image/jpeg"].includes(file[0].type)),
-            "Only PDF or image (PNG/JPEG) files are allowed"
-        )
-        .optional(),
+    title: z.string().min(2, {
+        message: 'Product Name must be at least 2 characters.',
+    }),
+    quantity: z.number().int().positive({
+        message: 'Quantity must be a positive integer.',
+    }),
+    phone: z.string().refine(
+        (val) => /^(\+?\d{1,3})?\d{10}$/.test(val),
+        {
+            message: 'Invalid mobile number format.',
+        }
+    ),
+    address: z.string().min(10, {
+        message: 'Delivery Address must be at least 10 characters.',
+    }),
+    district: z.string().min(3, {
+        message: 'District must be at least 3 characters.',
+    }),
+    thana: z.string().min(3, {
+        message: 'Thana must be at least 3 characters.',
+    }),
+    description: z.string().optional(),
+    file: z.instanceof(File).optional().refine(
+        (file) => !file || (file && (file.size <= 10 * 1024 * 1024)), // 10MB limit
+        `File size must be less than 10MB.`
+    ).refine(
+        (file) => !file || (file && ['image/jpeg', 'image/png', 'application/pdf'].includes(file.type)),
+        `File must be an image (JPEG/PNG) or a PDF.`
+    ),
 });
 
 export type ProductRequestType = z.infer<typeof productRequestSchema>;

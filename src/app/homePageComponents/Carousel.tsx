@@ -18,7 +18,7 @@ export default function PromoCarousel({ banners }: { banners: BannerType[] }) {
         <Carousel
             plugins={[plugin.current]}
             opts={{ loop: true, align: "start" }}
-            className="w-full max-w-5xl mx-auto"
+            className="w-full max-w-7xl mx-auto"
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
         >
@@ -28,7 +28,7 @@ export default function PromoCarousel({ banners }: { banners: BannerType[] }) {
                         key={banner.id}
                         className="pl-4 basis-full"
                     >
-                        <div className="relative aspect-[20/9] overflow-hidden rounded-lg shadow">
+                        <div className="relative aspect-[20/5] overflow-hidden rounded-lg shadow">
                             <Image src={`${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${banner.image}`} alt={banner.title} fill className="object-cover" />
                             <div className="absolute inset-0 bg-black/10 flex items-end p-4 text-white">
                                 <h3 className="text-xl font-semibold">{banner.title}</h3>

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Product } from '@/Types/Types'
 import AddToCart from '../AddToCart/AddToCart'
+import ProductPrice from '../ProductPrice/ProductPrice'
 
 const ProductCard = ({ product }: { product: Product }) => {
     return (
@@ -30,16 +31,9 @@ const ProductCard = ({ product }: { product: Product }) => {
                         <h2 className="mt-2 font-semibold my-4">{product.title}</h2>
 
 
-                        {
-                            product.price ? <div className="text-muted-foreground flex items-center justify-center gap-2">
-                                <Image src="/taka.png" alt="Taka symbol" width={20} height={20} />
-                                <p className="text-md font-bold">{product.price}</p>
-                            </div>
-                                :
-                                <div className="text-muted-foreground flex items-center justify-center gap-2">
-                                    Price on Request
-                                </div>
-                        }
+                        <div className='flex justify-center '>
+                            <ProductPrice product={product} />
+                        </div>
                     </div>
                 </Link>
 

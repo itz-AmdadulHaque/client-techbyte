@@ -2,6 +2,7 @@
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import React, { ReactNode, useEffect } from "react";
+import { LoadingOverlay } from "./LoadingOverlay/LoadingOverlay";
 
 function AuthCheck({
   children,
@@ -20,11 +21,11 @@ function AuthCheck({
   }, [auth, router]);
 
   if (auth?.isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingOverlay visible blur />;
   }
 
   if (!auth?.accessToken || !auth?.user) {
-    // Prevent rendering protected content during redirect
+    
     return null;
   }
 

@@ -12,6 +12,8 @@ export default async function Home() {
 
   const { banners, latestProducts, trendingProducts }: { banners: BannerType[], latestProducts: Product[], trendingProducts: Product[] } = data.data;
 
+  console.log(data);
+
   return (
     <div className="container mx-auto mt-4">
 
