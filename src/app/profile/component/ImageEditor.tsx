@@ -5,12 +5,14 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Image as ImageIcon, User, Pencil } from "lucide-react";
+import { Image as ImageIcon, User, Pencil, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Button } from "@/components/ui/button";
+import { imageCompress } from "@/lib/imageCompressor";
+import { cn } from "@/lib/utils";
 
 export default function ImageEditor() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -20,7 +22,12 @@ export default function ImageEditor() {
     const { auth, setAuth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
     const user = auth.user;
+    const handleOpenChange = (isOpen: boolean) => {
+        setIsDialogOpen(isOpen);
 
+        setPreview(null)
+        setFile(null)
+    };
     // React Query mutation for uploading image
     const { mutate: uploadImageMutation, isPending, isError } = useMutation({
         mutationFn: async (file: File) => {
@@ -42,12 +49,18 @@ export default function ImageEditor() {
         },
     });
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [isCompressing, setIsCompressing] = useState(false);
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
         if (!selectedFile) return;
+        setIsCompressing(true)
 
-        setFile(selectedFile);
-        setPreview(URL.createObjectURL(selectedFile));
+        const compressedFile = await imageCompress(selectedFile, .25);
+
+        setFile(compressedFile);
+        setPreview(URL.createObjectURL(compressedFile));
+
+        setIsCompressing(false)
     };
 
     return (
@@ -75,8 +88,7 @@ export default function ImageEditor() {
                 <Pencil className="w-4 h-4 text-gray-700" />
             </button>
 
-            {/* Dialog */}
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <Dialog open={isDialogOpen} onOpenChange={handleOpenChange}>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Update Profile Picture</DialogTitle>
@@ -85,6 +97,8 @@ export default function ImageEditor() {
                     <div className="p-4">
                         {/* Upload Area */}
                         <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500">
+
+                            {isCompressing && <Loader2 className={cn("h-24 w-24 animate-spin text-primary")} />}
                             {preview ? (
                                 <Image
                                     src={preview}
@@ -118,7 +132,7 @@ export default function ImageEditor() {
 
                         {/* Save Button */}
                         <Button
-                            disabled={isPending || !file}
+                            disabled={isPending || !file || isCompressing}
                             type="button"
                             className="w-full mt-4"
                             onClick={() => file && uploadImageMutation(file)}

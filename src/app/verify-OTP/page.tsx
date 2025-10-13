@@ -123,7 +123,7 @@ const VerifyOTP = () => {
                       </FormControl>
 
                       <FormDescription className="flex justify-between items-center gap-2">
-                        <span>Please enter the OTP sent to your phone.</span>
+                        <span>Please enter the OTP sent to your email.</span>
                         <Button
                           type="button"
                           variant="link"

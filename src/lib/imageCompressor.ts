@@ -1,8 +1,6 @@
 import imageCompression from "browser-image-compression";
 
 export async function imageCompress(file: File, maxSize: number = 1) {
-  console.log("originalFile instanceof Blob", file instanceof Blob); // true
-  console.log(`originalFile size ${file.size / 1024 / 1024} MB`);
 
   const options = {
     maxSizeMB: maxSize,

@@ -298,7 +298,7 @@ export default function ProductRequestForm() {
 
                                   handleImageUpload(file);
                                 } else {
-
+                                  console.log(file.type);
                                   form.setValue("file", file, {
                                     shouldDirty: true,
                                     shouldValidate: true,
@@ -317,8 +317,21 @@ export default function ProductRequestForm() {
                               className="hidden"
                               accept=".jpg,.jpeg,.png,.pdf"
                               onChange={(e) => {
+
+                                e.preventDefault();
                                 if (e.target.files && e.target.files.length > 0) {
-                                  form.setValue('file', e.target.files[0]);
+                                  const file = e.target.files[0];
+
+                                  if (file.type.startsWith("image/")) {
+
+                                    handleImageUpload(file);
+                                  } else {
+                                    console.log(file.type);
+                                    form.setValue("file", file, {
+                                      shouldDirty: true,
+                                      shouldValidate: true,
+                                    });
+                                  }
                                 }
                               }}
                             />
@@ -347,7 +360,7 @@ export default function ProductRequestForm() {
                     <Button
                       type="button"
                       className="flex-1 w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors disabled:opacity-50"
-                      disabled={addCartMutation.isPending || orderNowMutation.isPending}
+                      disabled={addCartMutation.isPending || orderNowMutation.isPending || isCompressing}
                       onClick={() => form.handleSubmit((data) => addCartMutation.mutate(data))()}
                     >
                       <ShoppingCart className="mr-2 h-4 w-4" />
@@ -356,7 +369,7 @@ export default function ProductRequestForm() {
                     <Button
                       type="button"
                       className="flex-1 w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-colors disabled:opacity-50"
-                      disabled={addCartMutation.isPending || orderNowMutation.isPending}
+                      disabled={addCartMutation.isPending || orderNowMutation.isPending || isCompressing}
                       onClick={() => form.handleSubmit((data) => orderNowMutation.mutate(data))()}
                     >
                       <Package className="mr-2 h-4 w-4" />

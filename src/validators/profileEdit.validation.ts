@@ -6,9 +6,7 @@ export const profileSchema = z
         firstName: z.string().min(1, 'Please enter your first name'),
         lastName: z.string().optional(),
         phone: phoneNumberSchema,
-        // address: z.string().optional(),
-        // district: z.string().optional(),
-        // thana: z.string().optional(),
+        
 
     })
 

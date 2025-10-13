@@ -93,6 +93,7 @@ export type Product = {
   title: string;
   slug: string;
   description: string;
+  thumbnail: string;
   price?: number;
   categoryId: string;
   subCategoryId: string;

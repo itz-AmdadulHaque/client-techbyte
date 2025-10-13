@@ -8,6 +8,8 @@ import AddToCart from '../AddToCart/AddToCart'
 import ProductPrice from '../ProductPrice/ProductPrice'
 
 const ProductCard = ({ product }: { product: Product }) => {
+
+    console.log(product);
     return (
         <Card key={product.id} className="h-full m-2">
             <CardContent className="h-full flex flex-col">
@@ -19,7 +21,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                         <Image
                             src={
                                 product.images[0]
-                                    ? `${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.images[0].image}`
+                                    ? `${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.thumbnail}`
                                     : "/altImage.jpg"
                             }
                             alt={product.title}
