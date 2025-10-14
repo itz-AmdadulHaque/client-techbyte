@@ -110,7 +110,7 @@ const OrderDetails = ({ params }: { params: Promise<{ id: string }> }) => {
                     <Link href={"/profile?tab=orders"}>
                         <Button><MoveLeft /> Back to orders</Button>
                     </Link>
-                    <h1 className='text-2xl font-bold p-6'>Order# {orderDetails?.id}</h1>
+                    <h1 className='text-2xl font-bold p-6'>Order# ord-{orderDetails?.id}</h1>
 
                     <h2 className='font-semibold'>Order Date: {dateFormatter(orderDetails?.createdAt)}</h2>
                 </div>

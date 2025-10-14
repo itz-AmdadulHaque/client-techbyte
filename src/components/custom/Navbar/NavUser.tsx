@@ -17,8 +17,8 @@ import useAuth from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { generateErrorMessage } from "@/lib/utils";
 
-export default function NavUser({ user }: { user: UserType }) {
-  const { logOut } = useAuth();
+export default function NavUser() {
+  const { logOut, auth } = useAuth();
   const handleLogout = async () => {
     try {
       await axiosPrivate("/auth/logout");
@@ -32,19 +32,20 @@ export default function NavUser({ user }: { user: UserType }) {
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
           <AvatarImage
-            src={user.image || undefined}
-            alt={`${user.firstName} ${user.lastName}`}
+            src={`${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${auth?.user?.image}` || undefined}
+            alt={`${auth?.user?.firstName} ${auth?.user?.lastName}`}
+            
           />
           <AvatarFallback>
-            {user.firstName?.[0]}
-            {user.lastName?.[0]}
+            {auth?.user?.firstName?.[0]}
+            {auth?.user?.lastName?.[0]}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-48" align="end">
         <DropdownMenuLabel>
-          {user.firstName} {user.lastName}
+          {auth?.user?.firstName} {auth?.user?.lastName}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>

@@ -91,8 +91,6 @@ const Cart = () => {
   return (
     <div className='container mx-auto min-h-screen'>
 
-      {isLoading}
-
       <LoadingOverlay visible={isPending} blur />
       
       <div>
