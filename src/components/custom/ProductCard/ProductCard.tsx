@@ -20,7 +20,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                     <div>
                         <Image
                             src={
-                                product.images[0]
+                                product.thumbnail
                                     ? `${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.thumbnail}`
                                     : "/altImage.jpg"
                             }

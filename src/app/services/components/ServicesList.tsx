@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ServicesFilterForm from "./ServicesFilter";
 import CustomPagination from "@/components/custom/Pagination/Pagination";
 import AddToCart from "@/components/custom/AddToCart/AddToCart";
+import ServiceCard from "@/components/custom/ServiceCard/ServiceCard";
 
 export async function ServiceList({
     searchParams,
@@ -33,11 +34,7 @@ export async function ServiceList({
 
     const categories = await getCategories();
 
-    function truncateHtml(html: string, length: number) {
-        // Strip tags for counting
-        const text = html.replace(/<[^>]+>/g, "");
-        return text.length > length ? text.slice(0, length) + "..." : text;
-    }
+
 
 
     return (
@@ -48,38 +45,7 @@ export async function ServiceList({
             {/* Services */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {services.map((service: ServiceType) => (
-                    <Card key={service.id} className="shadow-md rounded-2xl overflow-hidden">
-                        <CardHeader className="flex items-center gap-4 mb-4">
-                            <Image
-                                src={`${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${service.images[0].image}`}
-                                alt={service.title}
-                                width={80}
-                                height={80}
-                                className="w-28 h-28 rounded-sm object-cover"
-                            />
-                            <div>
-                                <h3 className="font-semibold">{service.title}</h3>
-
-                                <p
-                                    className="text-sm mb-3 mt-6"
-                                    dangerouslySetInnerHTML={{
-                                        __html: truncateHtml(service.description, 100),
-                                    }}
-                                />
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-
-
-                            <div className="flex justify-between">
-                                <Button asChild variant="default">
-                                    <Link href={`/services/${service.slug}`}>Show Details</Link>
-                                </Button>
-
-                                <AddToCart id={service.id} slug={service.slug} type="service" variant="outline" count={1}/>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <ServiceCard service={service} key={service.id} />
                 ))}
             </div>
 

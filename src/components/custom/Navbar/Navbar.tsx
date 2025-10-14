@@ -98,7 +98,7 @@ export default function Navbar() {
       {/* Desktop Top Navbar */}
       <nav className="shadow-md fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-black via-gray-900 to-black text-white">
 
-        <div className="flex justify-between items-center px-1 lg:px-6 py-4 container mx-auto">
+        <div className="flex justify-between items-center px-1 lg:px-3 py-4 container mx-auto">
 
 
           <div className="flex items-center gap-4">

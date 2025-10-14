@@ -110,6 +110,7 @@ export type Product = {
 export type ServiceType = {
   id: string;
   title: string;
+  thumbnail: string;
   slug: string;
   description: string;
   categoryId: string;
