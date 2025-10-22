@@ -9,7 +9,6 @@ import ProductPrice from '../ProductPrice/ProductPrice'
 
 const ProductCard = ({ product }: { product: Product }) => {
 
-    console.log(product);
     return (
         <Card key={product.id} className="h-full m-2">
             <CardContent className="h-full flex flex-col">

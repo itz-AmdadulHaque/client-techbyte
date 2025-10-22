@@ -17,8 +17,6 @@ export async function imageCompress(file: File, maxSize: number = 1) {
       lastModified: Date.now(),
     });
 
-    console.log(`compress size ${compressedBlob.size / 1024 / 1024} MB`);
-
     return compressedFile;
 
   } catch (error) {

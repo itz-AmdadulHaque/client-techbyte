@@ -180,7 +180,7 @@ export default function Navbar() {
 
             {auth?.user ?
               (
-                <NavUser user={auth.user} />
+                <NavUser />
               )
               :
               (

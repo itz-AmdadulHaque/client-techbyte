@@ -298,7 +298,6 @@ export default function ProductRequestForm() {
 
                                   handleImageUpload(file);
                                 } else {
-                                  console.log(file.type);
                                   form.setValue("file", file, {
                                     shouldDirty: true,
                                     shouldValidate: true,
@@ -326,7 +325,6 @@ export default function ProductRequestForm() {
 
                                     handleImageUpload(file);
                                   } else {
-                                    console.log(file.type);
                                     form.setValue("file", file, {
                                       shouldDirty: true,
                                       shouldValidate: true,

@@ -1,10 +1,17 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+import type { NextConfig } from 'next'
+ 
+const config: NextConfig = {
   images: {
-    remotePatterns: [new URL("https://pub-43a158751ca142c3a51b1b0baa14b50b.r2.dev/**")],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'domain-url.com',
+        port: '',
+        pathname: '/',
+        search: '',
+      },
+    ],
   },
-};
-
-export default nextConfig;
+}
+ 
+export default config

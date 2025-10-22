@@ -16,8 +16,6 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
     const product: Product = data.data;
 
-    console.log(product);
-
 
     return (
         <div className="container mx-auto mb-16 p-4">
