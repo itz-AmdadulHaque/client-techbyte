@@ -38,7 +38,7 @@ const ServiceCard = ({ service }: { service: ServiceType }) => {
 
 
                 <div className="flex justify-between">
-                    <Button asChild variant="default">
+                    <Button asChild  variant="success">
                         <Link href={`/services/${service.slug}`}>Show Details</Link>
                     </Button>
 

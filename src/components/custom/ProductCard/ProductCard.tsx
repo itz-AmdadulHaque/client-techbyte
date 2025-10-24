@@ -25,8 +25,8 @@ const ProductCard = ({ product }: { product: Product }) => {
                             }
                             alt={product.title}
                             width={400}
-                            height={160}
-                            className="w-full h-72 md:h-64 rounded-md object-contain mb-3"
+                            height={400}
+                            className="w-full h-72 md:h-64 rounded-md object-cover mb-3"
                         />
 
                         <h2 className="mt-2 font-semibold my-4">{product.title}</h2>
@@ -40,7 +40,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
                 <div className="flex justify-between items-center mt-4">
                     <Link href={`/product/${product.slug}`}>
-                        <Button >VIEW</Button>
+                        <Button variant="success">VIEW</Button>
                     </Link>
                     <AddToCart variant="outline" id={product.id} type='product' count={1} slug={product.slug} />
                 </div>
