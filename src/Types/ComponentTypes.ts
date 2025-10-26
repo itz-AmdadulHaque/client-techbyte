@@ -7,21 +7,24 @@ export type NavItemType = {
 
 export type CartProduct = {
     id: string;
-    price?: string | number;
+    price?: number;
     slug: string;
     title: string;
-    images: [{ image: string }]
+    images: [{ image: string }];
+    expiresAt: string;
+    discount: number;
 }
 
 export type ProductCartItemType = {
     id: string;
     cartId: string;
-    price?: string | number;
+    price?:  number;
     productId: string;
     quantity: number;
     createAt: string;
     updatedAt: string;
     product: CartProduct;
+
 }
 
 
@@ -62,10 +65,10 @@ export type ServiceItemType = {
 }
 
 export type PaymentType = {
-  id: string;
-  method: string;
-  amount: number;
-  transactionId: string
-  date: string;
-  updatedAt: string;
+    id: string;
+    method: string;
+    amount: number;
+    transactionId: string
+    date: string;
+    updatedAt: string;
 }

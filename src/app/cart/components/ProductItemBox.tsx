@@ -63,7 +63,11 @@ const ProductItemBox = ({ product }: { product: ProductCartItemType }) => {
         },
     });
 
-    console.log(product);
+    const finalPrice = product?.product?.price
+        ? new Date() < new Date(product.product.expiresAt)
+            ? product.product.price - product.product.discount
+            : product.product.price
+        : null;
 
     return (
         <div className='border p-3 rounded-md my-3 bg-white flex flex-wrap gap-5 items-center relative group'>
@@ -79,13 +83,13 @@ const ProductItemBox = ({ product }: { product: ProductCartItemType }) => {
             <div>
                 <h2 className='text-xl font-semibold'>{product.product.title}</h2>
 
-                {product.product.price
+                {finalPrice
                     ?
                     <p className="text-md mt-4 flex items-center gap-1">
 
                         <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
 
-                        <span>{product.product.price}</span>
+                        <span>{finalPrice}</span>
                     </p>
                     :
                     <p className="text-md mt-4 text-muted-foreground">Price on Request</p>
