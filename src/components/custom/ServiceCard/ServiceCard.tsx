@@ -24,7 +24,7 @@ const ServiceCard = ({ service }: { service: ServiceType }) => {
                     className="w-28 h-28 rounded-sm object-cover"
                 />
                 <div>
-                    <h3 className="font-semibold">{service.title}</h3>
+                    <h3 className="font-semibold text-xl">{service.title}</h3>
 
                     <p
                         className="text-sm mb-3 mt-6"

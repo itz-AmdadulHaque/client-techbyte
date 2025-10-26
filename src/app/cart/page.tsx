@@ -37,7 +37,7 @@ const Cart = () => {
   const axiosPrivate = useAxiosPrivate();
   const router = useRouter();
 
-  const { auth, isLoading } = useAuth();
+  const { auth } = useAuth();
 
   const form = useForm<OrderInfoSchema>({
     resolver: zodResolver(orderInfoSchema),

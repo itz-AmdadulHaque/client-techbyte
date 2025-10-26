@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import React, { useState } from "react";
 import { CloudDownload } from "lucide-react";
 import { LoadingOverlay } from "../LoadingOverlay/LoadingOverlay";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 const AddToCart = ({
     variant,
@@ -95,7 +96,8 @@ const AddToCart = ({
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <h3 className="text-lg font-semibold">Add Service</h3>
+                <DialogTitle>Add Service</DialogTitle>
+                    {/* <h3 className="text-lg font-semibold"></h3> */}
                     <textarea
                         placeholder="Write description for this service..."
                         value={description}
@@ -114,7 +116,6 @@ const AddToCart = ({
         );
     }
 
-    // Regular product
     return (
         <Button
             variant={variant}

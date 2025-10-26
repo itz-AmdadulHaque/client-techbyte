@@ -10,37 +10,38 @@ import ProductPrice from '../ProductPrice/ProductPrice'
 const ProductCard = ({ product }: { product: Product }) => {
 
     return (
-        <Card key={product.id} className="h-full m-2">
+        <Card key={product.id} className="h-full m-2 px-0">
             <CardContent className="h-full flex flex-col">
                 <Link
                     href={`/product/${product.slug}`}
                     className="flex flex-col flex-grow justify-between text-center"
                 >
-                    <div>
-                        <Image
-                            src={
-                                product.thumbnail
-                                    ? `${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.thumbnail}`
-                                    : "/altImage.jpg"
-                            }
-                            alt={product.title}
-                            width={400}
-                            height={400}
-                            className="w-full h-72 md:h-64 rounded-md object-cover mb-3"
-                        />
+                    <div className="rounded-md group mb-6">
+                        <div className="overflow-hidden rounded-md">
+                            <Image
+                                src={
+                                    product.thumbnail
+                                        ? `${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.thumbnail}`
+                                        : "/altImage.jpg"
+                                }
+                                alt={product.title}
+                                width={400}
+                                height={400}
+                                className="w-full h-full object-cover aspect-square transition-transform duration-300 group-hover:scale-105"
+                            />
+                        </div>
 
-                        <h2 className="mt-2 font-semibold my-4">{product.title}</h2>
+                        <h2 className="mt-2 text-xl font-semibold my-4">{product.title}</h2>
 
-
-                        <div className='flex justify-center '>
+                        <div className='flex justify-center'>
                             <ProductPrice product={product} />
                         </div>
                     </div>
                 </Link>
 
                 <div className="flex justify-between items-center mt-4">
-                    <Link href={`/product/${product.slug}`}>
-                        <Button variant="success">VIEW</Button>
+                    <Link href={`/product/${product.slug}`} >
+                        <Button variant="default" className='border hover:cursor-pointer'>VIEW</Button>
                     </Link>
                     <AddToCart variant="outline" id={product.id} type='product' count={1} slug={product.slug} />
                 </div>
