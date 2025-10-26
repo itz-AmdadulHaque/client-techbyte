@@ -24,7 +24,7 @@ export const productRequestSchema = z.object({
         message: 'Thana must be at least 3 characters.',
     }),
     description: z.string().optional(),
-    file: z.instanceof(File).optional().refine(
+    file: z.instanceof(File).refine(
         (file) => !file || (file && (file.size <= 10 * 1024 * 1024)), // 10MB limit
         `File size must be less than 10MB.`
     ).refine(

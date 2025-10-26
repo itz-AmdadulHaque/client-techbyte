@@ -63,6 +63,8 @@ const ProductItemBox = ({ product }: { product: ProductCartItemType }) => {
         },
     });
 
+    console.log(product);
+
     return (
         <div className='border p-3 rounded-md my-3 bg-white flex flex-wrap gap-5 items-center relative group'>
             <Image
