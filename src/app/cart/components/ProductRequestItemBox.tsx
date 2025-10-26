@@ -5,6 +5,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { queryClient } from '@/Provider/ReactQueryClientProvider';
 import { ProductRequestCartItemType } from '@/Types/ComponentTypes'
 import { useMutation } from '@tanstack/react-query';
+import { Download } from 'lucide-react';
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { toast } from 'sonner';
@@ -14,7 +15,8 @@ const ProductRequestItemBox = ({ product }: { product: ProductRequestCartItemTyp
     const [count, setCount] = useState(product.quantity);
     const axiosPrivate = useAxiosPrivate();
 
-
+    const fileUrl = `${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.fileName}`;
+    const isImage = /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(product.fileName);
 
     const updateCart = async (updateType: string) => {
 
@@ -65,13 +67,26 @@ const ProductRequestItemBox = ({ product }: { product: ProductRequestCartItemTyp
 
     return (
         <div className='border p-3 rounded-md my-3 bg-white flex flex-wrap gap-5 items-center relative group'>
-            <Image
-                height={70}
-                width={70}
-                className='w-20 h-20 object-contain'
-                src={`${process.env.NEXT_PUBLIC_IMAGE_SERVER}/${product.fileName}`}
-                alt={product.title}
-            />
+            {isImage ? (
+                <Image
+                    height={70}
+                    width={70}
+                    className="w-20 h-20 object-contain rounded-md"
+                    src={fileUrl}
+                    alt={product.title}
+                />
+            ) : (
+                <a
+                    href={fileUrl}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 border rounded-md hover:bg-gray-100 transition"
+                >
+                    <Download size={18} />
+                    <span>Download PDF</span>
+                </a>
+            )}
 
 
             <div>
