@@ -50,7 +50,7 @@ const Cart = () => {
   });
 
   const submitOrder = async (data: OrderInfoSchema) => {
-  
+
     const res = await axiosPrivate.post(`/orders`, data);
     return res;
   }
@@ -61,7 +61,7 @@ const Cart = () => {
     onSuccess: (data) => {
 
       toast.success("Order submitted", { position: 'top-center' });
-      
+
       router.push('/profile?tab=orders')
 
     },
@@ -78,11 +78,18 @@ const Cart = () => {
     let allHasPrice = true;
 
     for (const productItem of products) {
-      if (!productItem.product.price) {
+      const { product, quantity } = productItem;
+      const { price, discount, expiresAt } = product;
+
+      if (!price) {
         allHasPrice = false;
-      } else {
-        total += (Number(productItem.product.price) * productItem.quantity);
+        continue;
       }
+
+      const isDiscountValid = expiresAt && new Date() < new Date(expiresAt);
+      const effectivePrice = isDiscountValid ? price - discount : price;
+
+      total += Number(effectivePrice) * quantity;
     }
 
     return { totalPrice: total, allProductHasPrice: allHasPrice };
@@ -92,7 +99,7 @@ const Cart = () => {
     <div className='container mx-auto min-h-screen'>
 
       <LoadingOverlay visible={isPending} blur />
-      
+
       <div>
         <h1 className='text-2xl font-bold p-6'>Shopping Cart</h1>
       </div>
