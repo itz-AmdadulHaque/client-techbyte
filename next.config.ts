@@ -1,17 +1,19 @@
-import type { NextConfig } from 'next'
- 
+import type { NextConfig } from "next";
+
+const serverUrl = process.env.NEXT_PUBLIC_IMAGE_SERVER!;
+const { hostname } = new URL(serverUrl);
+
 const config: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'pub-43a158751ca142c3a51b1b0baa14b50b.r2.dev',
-        port: '',
-        pathname: '/**',
-        search: '',
+        protocol: "https",
+        hostname,
+        port: "",
+        pathname: "/**",
       },
     ],
   },
-}
- 
-export default config
+};
+
+export default config;
