@@ -1,6 +1,6 @@
 "use client";
 
-import { Home,  ShoppingBag,  Wrench, Briefcase, Package2, Folder, User } from "lucide-react";
+import { Home, ShoppingBag, Wrench, Briefcase, Package2, Folder, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -78,10 +78,10 @@ export default function Navbar() {
   ];
 
 
-  const {  } = useQuery({
+  const { } = useQuery({
     queryKey: ["clientInfo"],
     queryFn: async () => {
-      const res = await axiosPrivate.get("/customer"); 
+      const res = await axiosPrivate.get("/customer");
       setAuth((prev) => ({
         ...prev,
         user: res.data.data,
@@ -98,7 +98,7 @@ export default function Navbar() {
       {/* Desktop Top Navbar */}
       <nav className="shadow-md fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-black via-gray-900 to-black text-white">
 
-        <div className="flex justify-between items-center px-1 lg:px-3 py-4 container mx-auto">
+        <div className="flex gap-2 justify-between items-center px-1 lg:px-3 py-4 container mx-auto">
 
 
           <div className="flex items-center gap-4">
@@ -168,9 +168,11 @@ export default function Navbar() {
 
           <div className="flex items-center gap-4">
 
-            <Suspense>
-              <SearchBar />
-            </Suspense>
+            <div className="">
+              <Suspense>
+                <SearchBar />
+              </Suspense>
+            </div>
 
             <CartInfo className="hidden lg:block" />
 

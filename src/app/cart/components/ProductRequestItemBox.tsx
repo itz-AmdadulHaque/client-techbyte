@@ -108,7 +108,7 @@ const ProductRequestItemBox = ({ product }: { product: ProductRequestCartItemTyp
             </div>
             <div className="ml-auto">
                 <ItemCounter
-                    initialValue={count}
+                    value={count}
                     onChange={(val) => {
                         if (val > count) {
                             updateCount("+");

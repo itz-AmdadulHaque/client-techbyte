@@ -9,6 +9,7 @@ import ConsultantsFilterForm from "./consultantsFilter";
 import CustomPagination from "@/components/custom/Pagination/Pagination";
 import { ConsultantDetails } from "./ConsultantDetails";
 import SectionTitle from "@/components/custom/SectionTitle/SectionTitle";
+import ContactAdmin from "./ContactAdmin";
 // import { ConsultantsPageProps } from "../page";
 
 export async function ConsultantList({
@@ -29,6 +30,8 @@ export async function ConsultantList({
     const consultants = data.consultants || []
 
     const categories = await getCategories();
+
+    
 
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-6">
@@ -79,7 +82,7 @@ export async function ConsultantList({
                                     <Link href={`/consultants/${consultant.slug}`}>Show Details</Link>
                                 </Button> */}
                                 <ConsultantDetails consultant={consultant} />
-                                <Button variant="outline">Contact Admin</Button>
+                                <ContactAdmin />
                             </div>
                         </CardContent>
                     </Card>

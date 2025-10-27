@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog"
 import { ConsultantType } from "@/Types/Types"
 import Image from "next/image"
+import ContactAdmin from "./ContactAdmin"
 
 export function ConsultantDetails({ consultant }: { consultant: ConsultantType }) {
     return (
@@ -83,7 +84,7 @@ export function ConsultantDetails({ consultant }: { consultant: ConsultantType }
                     <DialogClose asChild>
                         <Button variant="outline">Close</Button>
                     </DialogClose>
-                    <Button type="submit">Contact Admin</Button>
+                    <ContactAdmin />
                 </DialogFooter>
             </DialogContent>
 

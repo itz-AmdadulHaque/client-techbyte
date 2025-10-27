@@ -40,14 +40,19 @@ const ProductRequestItemBox = ({ product }: { product: ProductRequestOrderItemTy
 
                         <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
 
-                        <span>{product.price}</span>
+                        <span>{product.price} X {product.quantity} = {Number(product.price) * product.quantity}</span>
                     </p>
                     :
                     <p className="text-md mt-4 text-muted-foreground">Price on Request</p>
                 }
 
-
             </div>
+            <p className="ml-auto text-xl font-semibold mt-4 flex items-center">
+
+                <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
+
+                <span>{Number(product.price) * product.quantity}</span>
+            </p>
 
         </div>
     )

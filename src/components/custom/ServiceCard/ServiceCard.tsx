@@ -6,13 +6,14 @@ import Link from 'next/link'
 import React from 'react'
 import AddToCart from '../AddToCart/AddToCart'
 
+export function truncateHtml(html: string, length: number) {
+    // Strip tags for counting
+    const text = html.replace(/<[^>]+>/g, "");
+    return text.length > length ? text.slice(0, length) + "..." : text;
+}
+
 const ServiceCard = ({ service }: { service: ServiceType }) => {
 
-    function truncateHtml(html: string, length: number) {
-        // Strip tags for counting
-        const text = html.replace(/<[^>]+>/g, "");
-        return text.length > length ? text.slice(0, length) + "..." : text;
-    }
     return (
         <Card key={service.id} className="shadow-md rounded-2xl overflow-hidden">
             <CardHeader className="flex items-center gap-4 mb-4">
@@ -38,7 +39,7 @@ const ServiceCard = ({ service }: { service: ServiceType }) => {
 
 
                 <div className="flex justify-between">
-                    <Button asChild  variant="success">
+                    <Button asChild variant="success">
                         <Link href={`/services/${service.slug}`}>Show Details</Link>
                     </Button>
 

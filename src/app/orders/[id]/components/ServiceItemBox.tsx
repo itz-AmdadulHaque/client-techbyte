@@ -50,6 +50,12 @@ const ServiceItemBox = ({ service, date }: { service: ServiceItemType, date: str
 
             </div>
 
+            <p className="ml-auto text-xl font-semibold mt-4 flex items-center">
+
+                <Image src="/taka.png" alt="Taka symbol" width={15} height={15} />
+
+                <span>{service.price}</span>
+            </p>
 
         </div>
     )

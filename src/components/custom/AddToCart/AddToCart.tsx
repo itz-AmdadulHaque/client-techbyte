@@ -63,7 +63,7 @@ const AddToCart = ({
         const cartInfo = {
             type,
             itemId: id,
-            count,
+            quantity: count,
             description: type === "service" ? description : undefined,
         }
         

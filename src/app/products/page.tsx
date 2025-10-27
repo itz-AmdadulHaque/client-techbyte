@@ -4,11 +4,12 @@ import { Product } from "@/Types/Types"
 import { fetchData } from "@/lib/fetchFunction"
 import CustomPagination from "@/components/custom/Pagination/Pagination"
 import ProductCard from "@/components/custom/ProductCard/ProductCard"
+import { Metadata } from "next"
 
 
 interface SearchPageProps {
   searchParams: Promise<{
-    search?:string;
+    search?: string;
     brand?: string
     category?: string
     subCategory?: string
@@ -19,10 +20,13 @@ interface SearchPageProps {
   }>
 }
 
+export const metadata: Metadata = {
+  title: "Products | TechVibe Global",
+  description:
+    "We can provide all the essential products needed for our services — including CCTV systems, computers, laptops, printers, projectors, accessories, fire safety equipment, and more.",
+};
+
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-
-
-
 
   const filters = {
     name: (await searchParams).search || '',
@@ -57,9 +61,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
       <div className="hidden lg:block lg:col-span-1">
-        
-          <SearchFilters initialFilters={filters} />
-        
+
+        <SearchFilters initialFilters={filters} />
+
       </div>
       <div className="lg:col-span-3 ">
 
