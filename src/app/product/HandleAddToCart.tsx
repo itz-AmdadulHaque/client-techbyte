@@ -8,11 +8,9 @@ const HandleAddToCart = ({ id, slug }: { id: string, slug: string }) => {
 
     const [count, setCount] = useState(1);
 
-
-
     return (
         <div className='space-y-4 '>
-            <ItemCounter initialValue={count} onChange={setCount} />
+            <ItemCounter value={count} onChange={setCount} />
 
             <AddToCart id={id} type="product" count={count} successResponse={() => {
                 setCount(1)

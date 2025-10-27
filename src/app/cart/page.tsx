@@ -33,6 +33,7 @@ const Cart = () => {
   const products = cartInfo?.productItems ?? [];
   const services = cartInfo?.serviceItems ?? [];
   const productRequests = cartInfo?.productRequests ?? [];
+  const [isLoading, setIsLoading] = useState(false)
 
   const axiosPrivate = useAxiosPrivate();
   const router = useRouter();
@@ -123,7 +124,7 @@ const Cart = () => {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 {products.map((productItem: ProductCartItemType) => (
-                  <ProductItemBox key={productItem.id} product={productItem} />
+                  <ProductItemBox key={productItem.id} product={productItem} isLoading={isLoading} setIsLoading={setIsLoading} />
                 ))}
               </CollapsibleContent>
             </Collapsible>

@@ -42,10 +42,12 @@ const AddToCart = ({
     const [open, setOpen] = useState(false);
     const [description, setDescription] = useState("");
 
+
+
     const handleAddToCart = async ({
         id,
         type,
-        count = 1,
+        count,
         description,
     }: {
         id: string;
@@ -58,12 +60,15 @@ const AddToCart = ({
             throw new Error("Please login to continue");
         }
 
-        const res = await axiosPrivate.post("/cart", {
+        const cartInfo = {
             type,
             itemId: id,
             count,
             description: type === "service" ? description : undefined,
-        });
+        }
+        
+
+        const res = await axiosPrivate.post("/cart",cartInfo);
         return res.data;
     };
 
@@ -96,7 +101,7 @@ const AddToCart = ({
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
-                <DialogTitle>Add Service</DialogTitle>
+                    <DialogTitle>Add Service</DialogTitle>
                     {/* <h3 className="text-lg font-semibold"></h3> */}
                     <textarea
                         placeholder="Write description for this service..."
