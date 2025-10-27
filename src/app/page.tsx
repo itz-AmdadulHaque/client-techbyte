@@ -13,6 +13,8 @@ export default async function Home() {
 
   const { banners, latestProducts, featuredProducts,featuredServices }: { banners: BannerType[], latestProducts: Product[], featuredProducts: Product[], featuredServices: ServiceType[] } = data.data;
 
+  console.log(data);
+
   return (
     <div className="container mx-auto mt-4">
 
