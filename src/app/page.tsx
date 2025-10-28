@@ -4,11 +4,12 @@ import HomepageProducts from "./homePageComponents/HomepageProducts";
 import HomepageServices from "./homePageComponents/HomepageServices";
 import { BannerType, Product, ServiceType } from "@/Types/Types";
 
-export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   try {
     const data = await fetchData("/home");
+
+    console.log(data);
     const {
       banners,
       latestProducts,
