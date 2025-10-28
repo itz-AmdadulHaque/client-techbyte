@@ -41,7 +41,6 @@ const nextConfig: NextConfig = {
     ],
     // Optional: Add these for better error handling
     domains: ['files.techvibeglobal.com'],
-    formats: ['image/webp', 'image/avif'],
   },
 };
 
