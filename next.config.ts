@@ -38,9 +38,15 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'pub-43a158751ca142c3a51b1b0baa14b50b.r2.dev',
+        port: '',
+        pathname: '/**',
+      },
     ],
     // Optional: Add these for better error handling
-    domains: ['files.techvibeglobal.com'],
+    domains: ['files.techvibeglobal.com', "pub-43a158751ca142c3a51b1b0baa14b50b.r2.dev"],
   },
 };
 

@@ -25,7 +25,6 @@ export default async function Home() {
     return (
       <div className="container mx-auto mt-4">
 
-        <p>{JSON.stringify(data)}</p>
         <PromoCarousel banners={banners} />
         <HomepageProducts products={featuredProducts} title="Featured Products" />
         <HomepageServices services={featuredServices} title="Services" />
