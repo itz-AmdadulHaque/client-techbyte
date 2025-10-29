@@ -101,7 +101,7 @@ export default function Navbar() {
         <div className="flex gap-2 justify-between items-center px-1 lg:px-3 py-4 container mx-auto">
 
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
 
             <NavbarDrawer navItems={navItems} />
 
@@ -166,9 +166,9 @@ export default function Navbar() {
 
           </ul>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
 
-            <div className="">
+            <div className="flex-1 ">
               <Suspense>
                 <SearchBar />
               </Suspense>

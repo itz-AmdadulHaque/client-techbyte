@@ -5,6 +5,9 @@ import { fetchData } from "@/lib/fetchFunction"
 import CustomPagination from "@/components/custom/Pagination/Pagination"
 import ProductCard from "@/components/custom/ProductCard/ProductCard"
 import { Metadata } from "next"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
+import { Menu } from "lucide-react"
 
 
 interface SearchPageProps {
@@ -67,8 +70,24 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       </div>
       <div className="lg:col-span-3 ">
 
-        <div className="font-bold bg-gray-200 dark:bg-gray-800 p-6 my-4 rounded-md">
-          Found Products
+        <div className="font-bold bg-gray-200 dark:bg-gray-800 p-6 my-4 rounded-md flex justify-between items-center">
+          <p>Found Products</p>
+
+          <Sheet>
+            <SheetTrigger asChild className="lg:hidden">
+              <Button variant="default" size="icon" className="">
+                <Menu strokeWidth={5.5} size={36} color="white" />
+              </Button>
+            </SheetTrigger>
+
+            <SheetContent side="left" className="px-4">
+              <SheetHeader>
+                <SheetTitle>Filter</SheetTitle>
+              </SheetHeader>
+              <SearchFilters initialFilters={filters} />
+
+            </SheetContent>
+          </Sheet>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

@@ -35,7 +35,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="md:w-96 flex">
+    <div className="flex">
 
       <Input
         type="search"
@@ -43,7 +43,7 @@ export default function SearchBar() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        className="p-3 min-w-28"
+        className="ml-3 p-3 min-w-28 max-w-96"
       />
       <Button
         onClick={handleSearch}
