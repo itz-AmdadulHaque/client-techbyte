@@ -44,9 +44,7 @@ export default function PromoCarousel({ banners }: { banners: BannerType[] }) {
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-black/20 flex items-end px-6 pb-4 text-white transition-opacity duration-300 group-hover:bg-black/30">
-                  <h3 className="text-2xl font-semibold drop-shadow-md">{banner.title}</h3>
-                </div>
+                
               </div>
             );
 
