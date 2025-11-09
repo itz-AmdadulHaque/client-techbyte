@@ -1,5 +1,4 @@
 import { Product } from "@/Types/Types";
-import Image from "next/image";
 
 export default function ProductPrice({ product }: { product: Product }) {
     if (!product.price) {
@@ -21,7 +20,7 @@ export default function ProductPrice({ product }: { product: Product }) {
             product.price - product.discount;
 
         return (
-            <div className="text-muted-foreground font-semibold text-center gap-2 ">
+            <div className="text-muted-foreground font-semibold gap-2 ">
                 {/* <Image src="/taka.png" alt="Taka symbol" width={20} height={20} /> */}
                 <p className=" line-through text-sm text-gray-400">BDT {product.price}</p>
                 <p className="font-bold text-xl  text-red-600">BDT {discountedPrice}</p>
