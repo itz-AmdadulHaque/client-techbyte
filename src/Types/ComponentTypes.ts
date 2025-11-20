@@ -1,8 +1,9 @@
 export type NavItemType = {
-    label: string;
-    href?: string;
-    icon?: React.ReactNode;
-    links?: NavItemType[];
+  label: string;
+  href?: string;
+  icon?: React.ReactNode;
+  image?: string;
+  links?: NavItemType[];
 }
 
 export type CartProduct = {

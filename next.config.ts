@@ -22,7 +22,6 @@
 import type { NextConfig } from "next";
 
 const serverUrl = process.env.NEXT_PUBLIC_IMAGE_SERVER!;
-const { hostname } = new URL(serverUrl);
 
 if (!serverUrl) {
   console.warn('NEXT_PUBLIC_IMAGE_SERVER environment variable is not set');
