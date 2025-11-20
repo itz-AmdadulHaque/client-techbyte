@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { useQuery } from "@tanstack/react-query";
@@ -31,6 +30,7 @@ import CartInfo from "../CartInfo/CartInfo";
 import { Suspense, useContext } from "react";
 import { DataContext } from "@/Provider/DataProvider/DataProvider";
 import Navbarcollapse from "./NavbarCollaps";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -38,7 +38,6 @@ export default function Navbar() {
 
   const { categories } = useContext(DataContext);
   const axiosPrivate = useAxiosPrivate();
-
 
   const navItems: NavItemType[] = [
     {
@@ -110,8 +109,8 @@ export default function Navbar() {
   return (
     <>
       {/* Desktop Top Navbar */}
-      <nav className="shadow-md fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-black via-gray-900 to-black text-white">
-        <div className="flex gap-2 justify-between items-center px-1 lg:px-3 py-4 container mx-auto">
+      <nav className="shadow-md fixed top-0 left-0 right-0 z-50 bg-black text-white">
+        <div className="flex justify-between items-center px-1 lg:px-3 py-4 container mx-auto">
           <div className="flex items-center gap-2 md:gap-4">
             <NavbarDrawer navItems={navItems} />
             <Image
@@ -119,22 +118,39 @@ export default function Navbar() {
               alt="TechVibe"
               width={100}
               height={100}
-              className="w-12 rounded-md"
+              className="w-12 rounded-full"
             />
-            <h2 className=" hidden xl:block text-xl font-bold">TechVibe</h2>
+            <h2 className=" hidden xl:block text-xl font-semibold">TechVibe</h2>
           </div>
 
-          <ul className="hidden lg:flex gap-8 items-center">
+          <ul className="hidden lg:flex gap-6 items-center">
             {navItems.map((item) => (
               <li key={item.href || item.label}>
                 {item.links ? (
                   <NavigationMenu key={item.label}>
                     <NavigationMenuItem>
-                      <NavigationMenuTrigger>
+                      <NavigationMenuTrigger
+                        className={cn(
+                          "group relative transition-colors duration-300",
+                          "text-base font-medium px-1 py-2", // Unified Font Style
+                          "hover:text-red-500 data-[state=open]:text-red-500" // Color Scheme (Red-500)
+                        )}
+                      >
                         {item.label}
+
+                        {/* ANIMATED UNDERLINE FOR TRIGGER */}
+                        <span
+                          className={cn(
+                            "absolute bottom-0 left-0 h-[2px] bg-red-500",
+                            "transition-all duration-300 ease-in-out",
+                            "w-0 group-hover:w-full",
+                            "data-[state=open]:w-full" // Underline stays visible when menu is OPEN
+                          )}
+                        />
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <div className="flex flex-col gap-2 max-w-[100%] max-h-[80vh] overflow-y-auto">
+                        {/* Added 'p-4' for better spacing within the dropdown content */}
+                        <div className="flex flex-col gap-2 max-w-[100%] max-h-[80vh] overflow-y-auto p-4">
                           {item.links.map((category) => (
                             <Navbarcollapse
                               key={category.label}
@@ -149,12 +165,24 @@ export default function Navbar() {
                   <Link
                     key={item.label}
                     href={item.href!}
-                    className={clsx(
-                      "text-sm font-medium hover:text-blue-600",
-                      pathname === item.href && "text-blue-600 font-semibold"
+                    className={cn(
+                      "group relative transition-colors duration-300",
+                      "text-base font-medium px-1 py-2", // Unified Font Style
+                      "hover:text-red-500", // Hover color
+                      pathname === item.href && "text-red-500" // Active text color
                     )}
                   >
                     {item.label}
+
+                    {/* ANIMATED UNDERLINE FOR SIMPLE LINK */}
+                    <span
+                      className={cn(
+                        "absolute bottom-0 left-0 h-[2px] bg-red-500",
+                        "transition-all duration-300 ease-in-out",
+                        "w-0 group-hover:w-full",
+                        pathname === item.href && "w-full" // Underline stays visible if active page
+                      )}
+                    />
                   </Link>
                 )}
               </li>
@@ -179,7 +207,7 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className={clsx(
+                className={cn(
                   "text-sm font-medium hover:text-blue-600",
                   pathname === "login" && "text-blue-600 font-semibold"
                 )}
@@ -198,7 +226,7 @@ export default function Navbar() {
             <li key={item.label}>
               <Link
                 href={item.href || "#"}
-                className={clsx(
+                className={cn(
                   "flex flex-col items-center text-xs",
                   pathname === item.href ? "text-blue-600" : "text-gray-500"
                 )}
@@ -210,7 +238,7 @@ export default function Navbar() {
           ))}
 
           <li
-            className={clsx(
+            className={cn(
               "flex flex-col items-center text-xs",
               pathname === "/cart" ? "text-blue-600" : "text-gray-500"
             )}
@@ -223,7 +251,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/profile"
-                className={clsx(
+                className={cn(
                   "flex flex-col items-center text-xs",
                   pathname === "/profile" ? "text-blue-600" : "text-gray-500"
                 )}
