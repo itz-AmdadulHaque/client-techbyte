@@ -132,8 +132,8 @@ export default function Navbar() {
                       <NavigationMenuTrigger
                         className={cn(
                           "group relative transition-colors duration-300",
-                          "text-base font-medium px-1 py-2", // Unified Font Style
-                          "hover:text-red-500 data-[state=open]:text-red-500" // Color Scheme (Red-500)
+                          "text-base font-normal px-1 py-2", 
+                          "hover:text-red-500 data-[state=open]:text-red-500" 
                         )}
                       >
                         {item.label}
@@ -144,12 +144,11 @@ export default function Navbar() {
                             "absolute bottom-0 left-0 h-[2px] bg-red-500",
                             "transition-all duration-300 ease-in-out",
                             "w-0 group-hover:w-full",
-                            "data-[state=open]:w-full" // Underline stays visible when menu is OPEN
+                            "data-[state=open]:w-full" 
                           )}
                         />
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        {/* Added 'p-4' for better spacing within the dropdown content */}
                         <div className="flex flex-col gap-2 max-w-[100%] max-h-[80vh] overflow-y-auto p-4">
                           {item.links.map((category) => (
                             <Navbarcollapse
@@ -167,9 +166,9 @@ export default function Navbar() {
                     href={item.href!}
                     className={cn(
                       "group relative transition-colors duration-300",
-                      "text-base font-medium px-1 py-2", // Unified Font Style
-                      "hover:text-red-500", // Hover color
-                      pathname === item.href && "text-red-500" // Active text color
+                      "text-base font-normal px-1 py-2", 
+                      "hover:text-red-500", 
+                      pathname === item.href && "text-red-500" 
                     )}
                   >
                     {item.label}
@@ -180,7 +179,7 @@ export default function Navbar() {
                         "absolute bottom-0 left-0 h-[2px] bg-red-500",
                         "transition-all duration-300 ease-in-out",
                         "w-0 group-hover:w-full",
-                        pathname === item.href && "w-full" // Underline stays visible if active page
+                        pathname === item.href && "w-full" 
                       )}
                     />
                   </Link>
