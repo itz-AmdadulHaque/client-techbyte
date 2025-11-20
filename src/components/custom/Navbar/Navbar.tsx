@@ -132,8 +132,13 @@ export default function Navbar() {
                       <NavigationMenuTrigger
                         className={cn(
                           "group relative transition-colors duration-300",
-                          "text-base font-normal px-1 py-2", 
-                          "hover:text-red-500 data-[state=open]:text-red-500" 
+                          "text-base font-normal px-1 py-2",
+                          "hover:text-red-500 data-[state=open]:text-red-500",
+                          "!bg-transparent",
+                          "!hover:bg-transparent",
+                          "!focus:bg-transparent",
+                          "!data-[state=open]:bg-transparent",
+                          "!focus-visible:bg-transparent"
                         )}
                       >
                         {item.label}
@@ -144,7 +149,7 @@ export default function Navbar() {
                             "absolute bottom-0 left-0 h-[2px] bg-red-500",
                             "transition-all duration-300 ease-in-out",
                             "w-0 group-hover:w-full",
-                            "data-[state=open]:w-full" 
+                            "data-[state=open]:w-full"
                           )}
                         />
                       </NavigationMenuTrigger>
@@ -166,9 +171,9 @@ export default function Navbar() {
                     href={item.href!}
                     className={cn(
                       "group relative transition-colors duration-300",
-                      "text-base font-normal px-1 py-2", 
-                      "hover:text-red-500", 
-                      pathname === item.href && "text-red-500" 
+                      "text-base font-normal px-1 py-2",
+                      "hover:text-red-500",
+                      pathname === item.href && "text-red-500"
                     )}
                   >
                     {item.label}
@@ -179,7 +184,7 @@ export default function Navbar() {
                         "absolute bottom-0 left-0 h-[2px] bg-red-500",
                         "transition-all duration-300 ease-in-out",
                         "w-0 group-hover:w-full",
-                        pathname === item.href && "w-full" 
+                        pathname === item.href && "w-full"
                       )}
                     />
                   </Link>
